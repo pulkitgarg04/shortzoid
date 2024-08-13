@@ -35,6 +35,7 @@ connectDB()
 // Views
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middlewares
 app.use(express.json());
@@ -43,6 +44,6 @@ app.use(cookieParser());
 app.use(checkAuthentication);
 
 // Routes
-app.use('/url', loggedIn, urlRoute);
 app.use('/', checkAuthentication, staticRoute);
+app.use('/urls', loggedIn, urlRoute);
 app.use('/user', userRoute);

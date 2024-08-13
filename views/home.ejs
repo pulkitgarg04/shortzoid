@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account - ShortZoid</title>
-    <link rel="stylesheet" href="/css/account.css" type="text/css">
-    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+    <title>ShortZoid - URL Shortener</title>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -18,13 +17,19 @@
         <h1>ShortZoid</h1>
         <div>
             <ul id="navbar">
-                <li><a href="/">Home</a></li>
-                <li><a class="active" href="/urls">My URLs</a></li>
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="/urls">My URLs</a></li>
                 <li><a href="/user/account">My Account</a></li>
             </ul>
         </div>
     </header>
-    <section id="user-info">
+    <section id="create-url">
+        <form action="#" method="POST">
+            <label for="url">Enter the URL: </label>
+            <input type="text">
+
+            <button type="submit">Submit</button>
+        </form>
     </section>
 </body>
 

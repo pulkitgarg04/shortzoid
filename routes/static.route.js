@@ -1,10 +1,10 @@
-const express = require('express')
+const express = require('express');
 const URL = require('../models/url.model.js');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     if (!req.user) {
-        return res.redirect('/login')
+        return res.redirect('/user/login');
     }
 
     const allUrls = await URL.find({
@@ -13,14 +13,14 @@ router.get('/', async (req, res) => {
 
     return res.render("home", {
         urls: allUrls,
-    })
+    });
 });
 
-router.get('/signup', async (req, res) => {
+router.get('/user/signup', async (req, res) => {
     return res.render("signup");
 });
 
-router.get('/login', async (req, res) => {
+router.get('/user/login', async (req, res) => {
     return res.render("login");
 });
 

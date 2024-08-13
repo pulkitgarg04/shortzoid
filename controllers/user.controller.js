@@ -8,7 +8,7 @@ async function handleUserSignUp(req, res) {
         password
     } = req.body;
 
-    await User.create({
+    const newUser = await User.create({
         name,
         email,
         password
@@ -18,6 +18,8 @@ async function handleUserSignUp(req, res) {
 }
 
 async function handleUserLogin(req, res) {
+    console.log(req.body);
+
     const { email, password } = req.body;
     const user = await User.findOne({
         email,
@@ -25,12 +27,19 @@ async function handleUserLogin(req, res) {
     });
 
     if(!user) {
+        console.log("User doesn't exist!");
+
         return res.render("login", {
             error: "Invalid Username or Password",
         });
     }
 
     const token = setUser(user);
+    if (!token) {
+        return res.render("login", {
+            error: "Error generating token. Please try again.",
+        });
+    }
     res.cookie("token", token);
     return res.redirect('/');
 }

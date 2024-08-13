@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignUp - Shortly</title>
-    <link rel="stylesheet" href="./css/signin.css">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <h1>Shortly - URL Shortener</h1>
-    <form>
-        <h3>Signup and Get Started</h3>
-        <form action="#" method="POST">
-            <label for="name">Name</label>
-            <input type="text" placeholder="Pulkit Garg" id="name">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignUp - ShortZoid</title>
+  <link rel="stylesheet" href="/css/signin.css" type="text/css">
+  <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
-            <label for="email">Email</label>
-            <input type="text" placeholder="Enter your email" id="email">
-            
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
 
-            <button type="submit">Sign Up</button>
-        </form>
-    </form>
+<body>
+  <h1>ShortZoid - URL Shortener</h1>
+  <form action="/user/signup" method="POST">
+    <h3>Signup and Get Started</h3>
+    <label for="name">Name</label>
+    <input type="text" placeholder="Pulkit Garg" id="name" name="name" required>
 
-  </body>
+    <label for="email">Email</label>
+    <input type="email" placeholder="Enter your email" id="email" name="email" required>
+
+    <label for="password">Password</label>
+    <input type="password" placeholder="Password" id="password" name="password" required>
+
+    <button type="submit">Sign Up</button>
+    <p class="login-or-signup">Already have account? <a href="/user/login">Login</a></p>
+  </form>
+
+</body>
+
 </html>
