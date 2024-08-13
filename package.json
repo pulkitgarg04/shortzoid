@@ -1,21 +1,22 @@
 {
-  "name": "url-shortener",
+  "name": "shortzoid",
   "version": "1.0.0",
   "description": "a url shortening website",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pulkitgarg04/URL-Shortener.git"
+    "url": "git+https://github.com/pulkitgarg04/ShortZoid.git"
   },
   "author": "Pulkit Garg",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pulkitgarg04/URL-Shortener/issues"
+    "url": "https://github.com/pulkitgarg04/ShortZoid/issues"
   },
-  "homepage": "https://github.com/pulkitgarg04/URL-Shortener#readme",
+  "homepage": "https://github.com/pulkitgarg04/ShortZoid#readme",
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",

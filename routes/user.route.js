@@ -8,9 +8,13 @@ const router = express.Router();
 
 router.post('/signup', handleUserSignUp);
 router.post('/login', handleUserLogin);
-router.get('/account', (req, res) => {
-    return res.render("account", {
-        user: req.user,
+router.get('/account', async (req, res) => {
+    if (!req.user) {
+        return res.redirect('/user/login');
+    }
+
+    return res.render('account', {
+        user: req.user
     });
 });
 

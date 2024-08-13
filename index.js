@@ -45,5 +45,5 @@ app.use(checkAuthentication);
 
 // Routes
 app.use('/', checkAuthentication, staticRoute);
-app.use('/urls', loggedIn, urlRoute);
+app.use('/url', loggedIn, urlRoute);
 app.use('/user', userRoute);
