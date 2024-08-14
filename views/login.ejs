@@ -17,11 +17,16 @@
   <h1>ShortZoid - URL Shortener</h1>
   <form action="/user/login" method="POST">
     <h3>Login and Start Sharing</h3>
+
     <label for="email">Email</label>
     <input type="email" name="email" placeholder="Enter your email" id="email" required>
 
     <label for="password">Password</label>
     <input type="password" name="password" placeholder="Password" id="password" required>
+
+    <% if (typeof error !== 'undefined') { %>
+      <p class="error-message"><%= error %></p>
+    <% } %>
 
     <button type="submit">Login</button>
     <p class="login-or-signup">Don't have account? <a href="/user/signup">Create Account</a></p>

@@ -11,7 +11,6 @@ async function handleGenerateNewShortURL(req, res) {
     }
 
     const shortID = shortid();
-    const allURLs = await URL.find({});
 
     try {
         await URL.create({
@@ -23,7 +22,6 @@ async function handleGenerateNewShortURL(req, res) {
 
         return res.render("home", {
             id: shortID,
-            urls: allURLs
         });
 
     } catch (error) {
@@ -66,21 +64,20 @@ async function handleRedirectNewShortURL(req, res) {
 }
 
 async function handleGetAnalytics(req, res) {
-    const shortID = req.params.shortID;
-
     try {
-        const result = await URL.findOne({ shortID });
+        const userId = req.user._id;
+        const userURLs = await URL.find({ createdBy: userId });
 
-        if (!result) {
+        if (!userURLs) {
             return res.status(404).send({
-                error: 'URL not found'
+                error: 'URLs not found'
             });
         }
 
-        return res.json({
-            totalClicks: result.visitHistory.length,
-            analytics: result.visitHistory
+        return res.render("analytics", {
+            urls: userURLs
         });
+
     } catch (error) {
         console.error(error);
         return res.status(500).send({

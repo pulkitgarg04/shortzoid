@@ -18,8 +18,6 @@ async function handleUserSignUp(req, res) {
 }
 
 async function handleUserLogin(req, res) {
-    console.log(req.body);
-
     const { email, password } = req.body;
     const user = await User.findOne({
         email,
@@ -27,8 +25,6 @@ async function handleUserLogin(req, res) {
     });
 
     if(!user) {
-        console.log("User doesn't exist!");
-
         return res.render("login", {
             error: "Invalid Username or Password",
         });

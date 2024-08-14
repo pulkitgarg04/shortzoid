@@ -19,19 +19,40 @@
         <div>
             <ul id="navbar">
                 <li><a class="active" href="/">Home</a></li>
-                <li><a href="/url">My URLs</a></li>
+                <li><a href="/url/analytics/">My URLs</a></li>
                 <li><a href="/user/account">My Account</a></li>
             </ul>
         </div>
     </header>
     <section id="create-url">
-        <form action="#" method="POST">
+        <form action="/url" method="POST">
             <label for="url">Enter the URL: </label>
-            <input type="text">
+            <input type="text" name="url" placeholder="https://example.com">
 
-            <button type="submit">Submit</button>
+            <button type="submit">Generate</button>
         </form>
+
+        <div>
+            <% if (typeof id !=='undefined' ) { %>
+                <div class="generated-url-box">
+                    <p>URL Generated: <span id="generated-url">http://localhost:8000/url/<%= id %></span>
+                        <button type="button" onclick="copyURL()">Copy</button>
+                    </p>
+                </div>
+                <% } %>
+        </div>
     </section>
+
+    <script>
+        function copyURL() {
+            const copyText = document.getElementById("generated-url").innerText;
+            navigator.clipboard.writeText(copyText).then(() => {
+                alert("Copied the URL: " + copyText);
+            }).catch(err => {
+                alert("Failed to copy the URL");
+            });
+        }
+    </script>
 </body>
 
 </html>

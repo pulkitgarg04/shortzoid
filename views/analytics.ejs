@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My URLs - ShortZoid</title>
-    <link rel="stylesheet" href="/css/urls.css" type="text/css">
+    <link rel="stylesheet" href="/css/analytics.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -19,12 +19,40 @@
         <div>
             <ul id="navbar">
                 <li><a href="/">Home</a></li>
-                <li><a class="active" href="/urls">My URLs</a></li>
+                <li><a class="active" href="/url/analytics/">My URLs</a></li>
                 <li><a href="/user/account">My Account</a></li>
             </ul>
         </div>
     </header>
     <section id="user-urls">
+        <% if (locals.urls) { %>
+            <table>
+                <thead>
+                    <th>S.No</th>
+                    <th>ShortID</th>
+                    <th>Redirect Link</th>
+                    <th>Clicks</th>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url,index)=> { %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <a href="http://localhost:8000/url/<%= url.shortID %>"><%= url.shortID %></a>
+                            </td>
+                            <td>
+                                <a href="<%= url.redirectURL %>"><%= url.redirectURL %></a>
+                            </td>
+                            <td>
+                                <%= url.visitHistory.length %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+            <% } %>
     </section>
 </body>
 
