@@ -88,3 +88,7 @@ td, th {
 thead th {
     background-color: #373737;
 }
+
+.copy-btn {
+    cursor: pointer;
+}

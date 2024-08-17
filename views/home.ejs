@@ -21,6 +21,7 @@
                 <li><a class="active" href="/">Home</a></li>
                 <li><a href="/url/analytics/">My URLs</a></li>
                 <li><a href="/user/account">My Account</a></li>
+                <li><a href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -35,7 +36,7 @@
         <div>
             <% if (typeof id !=='undefined' ) { %>
                 <div class="generated-url-box">
-                    <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/url/<%= id %></span>
+                    <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
                         <button type="button" onclick="copyURL()">Copy</button>
                     </p>
                 </div>

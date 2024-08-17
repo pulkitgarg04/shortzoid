@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/69a72a2c24.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -21,39 +22,65 @@
                 <li><a href="/">Home</a></li>
                 <li><a class="active" href="/url/analytics/">My URLs</a></li>
                 <li><a href="/user/account">My Account</a></li>
+                <li><a href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </header>
     <section id="user-urls">
-        <% if (locals.urls) { %>
+        <% if (urls && urls.length > 0) { %>
             <table>
                 <thead>
-                    <th>S.No</th>
-                    <th>ShortID</th>
-                    <th>Redirect Link</th>
-                    <th>Clicks</th>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Copy Shorten URL</th>
+                        <th scope="col">ShortID</th>
+                        <th scope="col">Redirect Link</th>
+                        <th scope="col">Clicks</th>
+                        <th scope="col">Delete Shorten URL</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <% urls.forEach((url,index)=> { %>
+                    <% urls.forEach((url, index) => { %>
                         <tr>
-                            <td>
-                                <%= index + 1 %>
+                            <td><%= index + 1 %></td>
+                            <td class="copy-btn" onclick="copyURL('<%= url.shortID %>')">
+                                <i class="fa-solid fa-copy"></i>
                             </td>
-                            <td>
-                                <a href="https://shortzoid.vercel.app/url/<%= url.shortID %>"><%= url.shortID %></a>
-                            </td>
-                            <td>
-                                <a href="<%= url.redirectURL %>"><%= url.redirectURL %></a>
-                            </td>
-                            <td>
-                                <%= url.visitHistory.length %>
+                            <td><a href="https://shortzoid.vercel.app/r/<%= url.shortID %>"><%= url.shortID %></a></td>
+                            <td><a href="<%= url.redirectURL %>"><%= url.redirectURL %></a></td>
+                            <td><%= url.visitHistory.length %></td>
+                            <td class="delete-btn" onclick="deleteURL('<%= url.shortID %>')">
+                                <i class="fa-solid fa-trash"></i>
                             </td>
                         </tr>
-                        <% }) %>
+                    <% }) %>
                 </tbody>
             </table>
-            <% } %>
+        <% } else { %>
+            <p>No URLs found.</p>
+        <% } %>
     </section>
+
+    <script>
+        function copyURL(shortID) {
+            const copyText = `https://shortzoid.vercel.app/r/${shortID}`;
+            navigator.clipboard.writeText(copyText).then(() => {
+                alert("Copied the URL: " + copyText);
+            }).catch(err => {
+                alert("Failed to copy the URL");
+            });
+        }
+
+        function deleteURL(shortID) {
+            if (confirm("Are you sure you want to delete this URL?")) {
+                fetch(`/url/delete/${shortID}`, {
+                    method: 'DELETE',
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>

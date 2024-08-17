@@ -5,18 +5,18 @@ dotenv.config({
 
 const express = require("express");
 const app = express();
-
 const path = require("path");
 
 const urlRoute = require('./routes/url.route');
 const staticRoute = require('./routes/static.route');
 const userRoute = require('./routes/user.route');
+const redirectRoute = require('./routes/redirect.route');
 
 const { loggedIn, checkAuthentication } = require("./middlewares/auth.middleware.js");
-
 const cookieParser = require('cookie-parser');
 const connectDB = require("./db/index.js");
 
+// Database Connection
 connectDB()
     .then(() => {
         app.on("error", (error) => {
@@ -46,4 +46,5 @@ app.use(checkAuthentication);
 // Routes
 app.use('/', checkAuthentication, staticRoute);
 app.use('/url', loggedIn, urlRoute);
+app.use('/r', redirectRoute);
 app.use('/user', userRoute);

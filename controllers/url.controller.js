@@ -32,37 +32,6 @@ async function handleGenerateNewShortURL(req, res) {
     }
 }
 
-async function handleRedirectNewShortURL(req, res) {
-    const shortID = req.params.shortID;
-
-    try {
-        const entry = await URL.findOneAndUpdate({
-            shortID
-        }, {
-            $push: {
-                visitHistory: {
-                    timestamp: Date.now()
-                }
-            }
-        }, {
-            new: true
-        });
-
-        if (!entry || !entry.redirectURL) {
-            return res.status(404).send({
-                error: 'URL not found'
-            });
-        }
-
-        res.redirect(entry.redirectURL);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).send({
-            error: 'Internal Server Error'
-        });
-    }
-}
-
 async function handleGetAnalytics(req, res) {
     try {
         const userId = req.user._id;
@@ -86,8 +55,33 @@ async function handleGetAnalytics(req, res) {
     }
 }
 
+async function handleDeleteURL(req, res) {
+    const { shortID } = req.params;
+
+    try {
+        const result = await URL.findOneAndDelete({
+            shortID: shortID,
+            createdBy: req.user._id
+        });
+
+        if (result) {
+            return res.redirect("/url/analytics");
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: 'URL not found or you do not have permission to delete it'
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            error: 'Internal Server Error'
+        });
+    }
+}
+
 module.exports = {
     handleGenerateNewShortURL,
-    handleRedirectNewShortURL,
-    handleGetAnalytics
+    handleGetAnalytics,
+    handleDeleteURL
 };

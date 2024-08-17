@@ -21,14 +21,31 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/url/analytics/">My URLs</a></li>
                 <li><a class="active" href="/user/account">My Account</a></li>
+                <li><a href="/user/logout">Logout</a></li>
             </ul>
         </div>
     </header>
     <section id="user-info">
-        <h2>Account Information</h2>
+        <div class="user-info-header">
+            <h2>Account Information</h2>
+            <a href="/user/account/edit">
+                <button class="edit-btn">Edit Profile</button>
+            </a>
+        </div>
         <div class="info">
-            <p><strong>Name:</strong> <%= user.name || 'Name not available' %></p>
-            <p><strong>Email:</strong> <%= user.email || 'Email not available' %></p>
+            <% if (user.gender === 'Male') { %>
+                <img src="/user/male.png" height="200px">
+            <% } else if (user.gender === 'Female') { %>
+                <img src="/user/female.png" height="200px">
+            <% } else { %>
+                <img src="/user/male.png" height="200px">
+            <% } %>
+            <div class="info-box">
+                <p><strong>Name:</strong> <%= user.name || 'Name not available' %></p>
+                <p><strong>Email:</strong> <%= user.email || 'Email not available' %></p>
+                <p><strong>Gender:</strong> <%= user.gender || 'Not Specified' %></p>
+                <p><strong>Location:</strong> <%= user.location || 'Not Specified' %></p>
+            </div>
         </div>
     </section>
 </body>
