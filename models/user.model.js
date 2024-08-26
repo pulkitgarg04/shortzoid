@@ -24,7 +24,10 @@ const userSchema = new mongoose.Schema({
     location: {
         type: String,
         trim: true
-    }
+    },
+    resetPasswordToken: {
+        type: String
+    },
 });
 
 const User = mongoose.model("User", userSchema);

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - ShortZoid</title>
   <link rel="stylesheet" href="/css/signin.css" type="text/css">
@@ -10,13 +10,13 @@
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <h1>ShortZoid - URL Shortener</h1>
+  <h1>ShortZoid</h1>
   <form action="/user/login" method="POST">
-    <h3>Login and Start Sharing</h3>
+    <h3>Login & Start Sharing</h3>
 
     <label for="email">Email</label>
     <input type="email" name="email" placeholder="Enter your email" id="email" required>
@@ -27,9 +27,13 @@
     <% if (typeof error !== 'undefined') { %>
       <p class="error-message"><%= error %></p>
     <% } %>
+    
+    <a href="/user/forget-password">
+      <p class="forget-password">Forget Password?</p>
+    </a>
 
     <button type="submit">Login</button>
-    <p class="login-or-signup">Don't have account? <a href="/user/signup">Create Account</a></p>
+    <p class="login-or-signup">Don't have account? <a href="/signup">Create Account</a></p>
   </form>
 
 </body>

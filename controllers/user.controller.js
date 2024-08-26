@@ -1,14 +1,25 @@
 const User = require("../models/user.model.js");
+const jwt = require("jsonwebtoken");
 const { setUser } = require("../services/auth");
 
+const sendMail = require("../utils/mailSender.js");
+const { forgetPasswordTemplate } = require("../mailTemplates/forgetPasswordTemplate.mailTemplate.js");
+
 // Handle User Signup
-async function handleUserSignUp(req, res) {
-    try{
+async function signUp(req, res) {
+    try {
         const {
             name,
             email,
             password
         } = req.body;
+
+        const checkForExistingUser = await User.findOne({ email });
+        if (checkForExistingUser) {
+            return res.status(500).render("signup", {
+                error: "Account already registered with this email."
+            });
+        }
 
         const newUser = await User.create({
             name,
@@ -18,21 +29,21 @@ async function handleUserSignUp(req, res) {
 
         return res.redirect("/");
     } catch (error) {
-        console.error("Error during signup:", error);
+        // console.error("Error during signup:", error);
         return res.status(500).render("signup", { error: "Error creating account. Please try again." });
     }
 };
 
 // Handle User Login
-async function handleUserLogin(req, res) {
-    try{
+async function login(req, res) {
+    try {
         const { email, password } = req.body;
         const user = await User.findOne({
             email,
             password
         });
 
-        if(!user) {
+        if (!user) {
             return res.render("login", {
                 error: "Invalid Username or Password",
             });
@@ -47,15 +58,52 @@ async function handleUserLogin(req, res) {
         res.cookie("token", token);
         return res.redirect('/');
     } catch (error) {
-        console.error("Error during login:", error);
-        return res.status(500).render("login", { error: "Internal Server Error. Please try again." });
+        // console.error("Error during login:", error);
+        return res.status(500).render("login", {
+            error: "Internal Server Error. Please try again."
+        });
     }
 }
 
-
 // Handle User Logout
-async function handleUserLogout(req, res) {
+async function logout(req, res) {
     return res.clearCookie('token').redirect('/');
+}
+
+// Handle forget password route
+async function forgetPassword(req, res) {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.render("auth/forget-password", {
+                error: 'User with this email does not exist.',
+            });
+        }
+
+        const token = jwt.sign(
+            { id: user.id },
+            process.env.SECRET,
+        );
+
+        User.resetPasswordToken = token;
+        await user.save()
+
+        const resetUrl = `http://localhost:8000/reset-password/${token}`;
+
+        const htmlContent = forgetPasswordTemplate(resetUrl, user.name);
+
+        await sendMail(user.email, 'Reset your ShortZoid password', htmlContent);
+
+        return res.render("auth/forget-password", {
+            message: 'Password reset link has been sent to your email.',
+        });
+    } catch (error) {
+        return res.render("auth/forget-password", {
+            error: 'Error sending email. Please try again later.'
+        });
+    }
 }
 
 // Show Account Info
@@ -64,7 +112,7 @@ async function showAccountInfo(req, res) {
         if (!req.user) {
             return res.redirect('/user/login');
         }
-        
+
         const user = await User.findById(req.user._id);
         if (!user) {
             return res.redirect('/user/login');
@@ -74,7 +122,7 @@ async function showAccountInfo(req, res) {
             user
         });
     } catch (error) {
-        console.error("Error retrieving account info:", error);
+        // console.error("Error retrieving account info:", error);
         return res.status(500).redirect('/user/login');
     }
 };
@@ -116,15 +164,16 @@ async function editAccountInfo(req, res) {
         res.redirect('/user/account');
 
     } catch (error) {
-        console.error("Error updating profile:", error);
+        // console.error("Error updating profile:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
 module.exports = {
-    handleUserLogin,
-    handleUserSignUp,
-    handleUserLogout,
+    signUp,
+    login,
+    logout,
+    forgetPassword,
     showAccountInfo,
     renderEditAccountPage,
     editAccountInfo

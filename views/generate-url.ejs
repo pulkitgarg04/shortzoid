@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShortZoid - URL Shortener</title>
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>ShortZoid</h1>
+        <div>
+            <ul id="navbar">
+                <li><a class="active" href="/">Home</a></li>
+                <li><a href="/url/analytics/">My URLs</a></li>
+                <li><a href="/user/account">My Account</a></li>
+                <li><a href="/user/logout">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <section id="create-url">
+        <form action="/url" method="POST">
+            <label for="url">Enter the URL: </label>
+            <input type="text" name="url" placeholder="https://example.com">
+
+            <button type="submit">Generate</button>
+        </form>
+
+        <div>
+            <% if (typeof id !=='undefined' ) { %>
+                <div class="generated-url-box">
+                    <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
+                        <button type="button" onclick="copyURL()">Copy</button>
+                    </p>
+                </div>
+                <% } %>
+        </div>
+    </section>
+
+    <script>
+        function copyURL() {
+            const copyText = document.getElementById("generated-url").innerText;
+            navigator.clipboard.writeText(copyText).then(() => {
+                alert("Copied the URL: " + copyText);
+            }).catch(err => {
+                alert("Failed to copy the URL");
+            });
+        }
+    </script>
+</body>
+
+</html>

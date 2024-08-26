@@ -1,29 +1,36 @@
 *,
 *:before,
 *:after {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: #080710;
+    background-color: #191C33;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
 }
 
 h1 {
+    font-size: 50px;
+    font-weight: 800;
+    background-image: linear-gradient(to right, rgb(96, 165, 250), rgb(147, 51, 234));
+    background-clip: text;
     text-align: center;
-    font-family: 'Poppins', sans-serif;
-    color: #ffffff;
-    margin: 3rem;
+    color: rgba(0, 0, 0, 0);
+    background-color: rgb(17, 24, 39);
 }
 
 form {
-    margin-top: 1rem;
+    width: 30%;
+    margin-top: 2rem;
     background-color: rgba(255, 255, 255, 0.13);
-    position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -32,7 +39,6 @@ form {
 }
 
 form * {
-    font-family: 'Poppins', sans-serif;
     color: #ffffff;
     letter-spacing: 0.5px;
     outline: none;
@@ -66,6 +72,10 @@ input {
     color: #b9b9b9;
 }
 
+.forget-password {
+    margin-top: 10px;
+}
+
 button {
     margin-top: 20px;
     width: 100%;
@@ -79,7 +89,7 @@ button {
 }
 
 .login-or-signup {
-    margin-top: 15px;
+    margin-top: 20px;
     text-align: center;
     font-weight: 400;
 }
@@ -88,5 +98,11 @@ button {
     text-align: center;
     color: red;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin: 10px;
+}
+
+.message {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
 }

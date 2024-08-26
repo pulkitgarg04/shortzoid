@@ -3,57 +3,43 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShortZoid - URL Shortener</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>ShortZoid - a URL Shortening and QR Code Generatoring Website</title>
     <link rel="stylesheet" href="/css/home.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/69a72a2c24.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
-    <header>
-        <h1>ShortZoid</h1>
-        <div>
-            <ul id="navbar">
-                <li><a class="active" href="/">Home</a></li>
-                <li><a href="/url/analytics/">My URLs</a></li>
-                <li><a href="/user/account">My Account</a></li>
-                <li><a href="/user/logout">Logout</a></li>
-            </ul>
+    <h1>ShortZoid</h1>
+    <h2>Shorten URLs and Generate QR Codes!</h2>
+    <p class="description">Shorten, Share, and Track Your Links Effortlessly - Boost Your Online Presence with
+        ShortZoid, Your Smart URL Companion.</p>
+    <a href="/login"><button class="btn">Get Started</button></a>
+    <div id="feature-container">
+        <div class="feature-box">
+            <i class="fa-solid fa-scissors"></i>
+            <h3 class="feature-box-title">Shorten URLs</h3>
+            <p class="feature-box-description">Effortlessly shorten your URLs with precision and speed using our smart
+                shortening tool.</p>
         </div>
-    </header>
-    <section id="create-url">
-        <form action="/url" method="POST">
-            <label for="url">Enter the URL: </label>
-            <input type="text" name="url" placeholder="https://example.com">
-
-            <button type="submit">Generate</button>
-        </form>
-
-        <div>
-            <% if (typeof id !=='undefined' ) { %>
-                <div class="generated-url-box">
-                    <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
-                        <button type="button" onclick="copyURL()">Copy</button>
-                    </p>
-                </div>
-                <% } %>
+        <div class="feature-box">
+            <i class="fa-solid fa-chart-column"></i>
+            <h3 class="feature-box-title">Track URL Clicks</h3>
+            <p class="feature-box-description">Gain insights with detailed click analytics to optimize your link
+                performance.</p>
         </div>
-    </section>
-
-    <script>
-        function copyURL() {
-            const copyText = document.getElementById("generated-url").innerText;
-            navigator.clipboard.writeText(copyText).then(() => {
-                alert("Copied the URL: " + copyText);
-            }).catch(err => {
-                alert("Failed to copy the URL");
-            });
-        }
-    </script>
+        <div class="feature-box">
+            <i class="fa-solid fa-qrcode"></i>
+            <h3 class="feature-box-title">Generate QR Codes</h3>
+            <p class="feature-box-description">Instantly create custom QR codes to share your links with ease, anywhere.
+            </p>
+        </div>
+    </div>
+    <p id="copyright">© 2024 ShortZoid. All rights reserved.</p>
 </body>
 
 </html>

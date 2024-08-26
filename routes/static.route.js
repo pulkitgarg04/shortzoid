@@ -2,26 +2,16 @@ const express = require('express');
 const URL = require('../models/url.model.js');
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-    if (!req.user) {
-        return res.redirect('/user/login');
-    }
-
-    const allUrls = await URL.find({
-        createdBy: req.user._id
-    });
-
-    return res.render("home", {
-        urls: allUrls,
-    });
+router.get('/', (req, res) => {
+    return res.render("home");
 });
 
-router.get('/user/signup', async (req, res) => {
-    return res.render("signup");
+router.get('/signup', async (req, res) => {
+    return res.render("auth/signup");
 });
 
-router.get('/user/login', async (req, res) => {
-    return res.render("login");
+router.get('/login', async (req, res) => {
+    return res.render("auth/login");
 });
 
 module.exports = router;

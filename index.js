@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config({
+require("dotenv").config({
     path: './.env'
 });
 
@@ -7,30 +6,19 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
-const urlRoute = require('./routes/url.route');
+// Routes
 const staticRoute = require('./routes/static.route');
+const urlRoute = require('./routes/url.route');
 const userRoute = require('./routes/user.route');
 const redirectRoute = require('./routes/redirect.route');
+const resetPasswordRoute = require('./routes/resetpass.route');
 
-const { loggedIn, checkAuthentication } = require("./middlewares/auth.middleware.js");
+const { checkAuthentication } = require("./middlewares/auth.middleware.js");
 const cookieParser = require('cookie-parser');
-const connectDB = require("./db/index.js");
+const connectDB = require("./config/database.js");
 
 // Database Connection
-connectDB()
-    .then(() => {
-        app.on("error", (error) => {
-            console.error("Error: ", error);
-            throw error;
-        });
-        app.listen(process.env.PORT || 8000, () => {
-            console.log(`⚙️  Server is running at port: ${process.env.PORT}`);
-        });
-    })
-    .catch((err) => {
-        console.log("MongoDB connection FAILED!!! Error: ", err);
-        process.exit(1);
-    })
+connectDB();
 
 // Views
 app.set("view engine", "ejs");
@@ -44,7 +32,12 @@ app.use(cookieParser());
 app.use(checkAuthentication);
 
 // Routes
-app.use('/', checkAuthentication, staticRoute);
-app.use('/url', loggedIn, urlRoute);
-app.use('/r', redirectRoute);
+app.use('/', staticRoute);
 app.use('/user', userRoute);
+// app.use('/dashboard', checkAuthentication, dashboardRoute);
+// app.use('/url', urlRoute);
+// app.use('/r', redirectRoute);
+
+app.listen(process.env.PORT || 8000, () => {
+    console.log(`⚙️  Server is running at port: ${process.env.PORT}`);
+});

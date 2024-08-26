@@ -1,21 +1,23 @@
 const express = require("express");
-const { loggedIn } = require("../middlewares/auth.middleware");
+
+const { auth } = require("../middlewares/auth.middleware.js");
 const {
-    handleUserLogin,
-    handleUserSignUp,
-    handleUserLogout,
-    showAccountInfo,
-    editAccountInfo,
-    renderEditAccountPage
+    signUp,
+    login,
+    // sendOTP,
+    forgetPassword,
+    // changePassword
 } = require("../controllers/user.controller.js");
 
 const router = express.Router();
 
-router.post('/signup', handleUserSignUp);
-router.post('/login', handleUserLogin);
-router.get('/logout', handleUserLogout);
-router.get('/account', loggedIn, showAccountInfo);
-router.get('/account/edit', loggedIn, renderEditAccountPage);
-router.post('/account/edit', loggedIn, editAccountInfo);
+// router.post('/sendOTP', sendOTP);
+router.post('/signup', signUp);
+router.post('/login', login);
+router.get('/forget-password', async (req, res) => {
+    return res.render("auth/forget-password");
+});
+router.post('/forget-password', forgetPassword)
+// router.post('/changePassword', auth, changePassword)
 
 module.exports = router;

@@ -14,9 +14,9 @@
 </head>
 
 <body>
-  <h1>ShortZoid - URL Shortener</h1>
+  <h1>ShortZoid</h1>
   <form action="/user/signup" method="POST">
-    <h3>Signup and Get Started</h3>
+    <h3>Signup & Get Started</h3>
     <label for="name">Name</label>
     <input type="text" placeholder="Pulkit Garg" id="name" name="name" required>
 
@@ -26,8 +26,12 @@
     <label for="password">Password</label>
     <input type="password" placeholder="Password" id="password" name="password" required>
 
+    <% if (typeof error !== 'undefined') { %>
+      <p class="error-message"><%= error %></p>
+    <% } %>
+
     <button type="submit">Sign Up</button>
-    <p class="login-or-signup">Already have account? <a href="/user/login">Login</a></p>
+    <p class="login-or-signup">Already have account? <a href="/login">Login</a></p>
   </form>
 
 </body>
