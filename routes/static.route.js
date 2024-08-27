@@ -14,4 +14,8 @@ router.get('/login', async (req, res) => {
     return res.render("auth/login");
 });
 
+router.get('/logout', async (req, res) => {
+    return res.render("auth/login");
+});
+
 module.exports = router;

@@ -16,7 +16,7 @@ async function signUp(req, res) {
 
         const checkForExistingUser = await User.findOne({ email });
         if (checkForExistingUser) {
-            return res.status(500).render("signup", {
+            return res.status(500).render("auth/signup", {
                 error: "Account already registered with this email."
             });
         }
@@ -27,7 +27,15 @@ async function signUp(req, res) {
             password
         });
 
-        return res.redirect("/");
+        const token = setUser(newUser);
+        if (!token) {
+            return res.render("auth/signup", {
+                error: "Error generating token. Please try again.",
+            });
+        }
+        res.cookie("token", token);
+
+        return res.redirect("/dashboard");
     } catch (error) {
         // console.error("Error during signup:", error);
         return res.status(500).render("signup", { error: "Error creating account. Please try again." });
@@ -56,7 +64,7 @@ async function login(req, res) {
             });
         }
         res.cookie("token", token);
-        return res.redirect('/');
+        return res.redirect('/dashboard');
     } catch (error) {
         // console.error("Error during login:", error);
         return res.status(500).render("login", {
@@ -74,6 +82,15 @@ async function logout(req, res) {
 async function forgetPassword(req, res) {
     try {
         const { email } = req.body;
+
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+            return res.render("forget-password").json({
+                success: false,
+                message: "Please Provide a valid Email Address.",
+            });
+        }
+
         const user = await User.findOne({ email });
 
         if (!user) {
@@ -87,10 +104,10 @@ async function forgetPassword(req, res) {
             process.env.SECRET,
         );
 
-        User.resetPasswordToken = token;
-        await user.save()
+        user.resetPasswordToken = token;
+        await user.save();
 
-        const resetUrl = `http://localhost:8000/reset-password/${token}`;
+        const resetUrl = `http://${req.headers.host}/reset-password/${token}`;
 
         const htmlContent = forgetPasswordTemplate(resetUrl, user.name);
 
@@ -107,23 +124,20 @@ async function forgetPassword(req, res) {
 }
 
 // Show Account Info
-async function showAccountInfo(req, res) {
+async function showProfile(req, res) {
     try {
         if (!req.user) {
-            return res.redirect('/user/login');
+            return res.redirect('/login');
         }
 
         const user = await User.findById(req.user._id);
         if (!user) {
-            return res.redirect('/user/login');
+            return res.redirect('/login');
         }
 
-        return res.render('account', {
-            user
-        });
+        return res.render('user/profile', { user });
     } catch (error) {
-        // console.error("Error retrieving account info:", error);
-        return res.status(500).redirect('/user/login');
+        return res.status(500).redirect('/login');
     }
 };
 
@@ -174,7 +188,7 @@ module.exports = {
     login,
     logout,
     forgetPassword,
-    showAccountInfo,
+    showProfile,
     renderEditAccountPage,
     editAccountInfo
 };
