@@ -6,7 +6,7 @@ const {
     login,
     logout,
     forgetPassword,
-    // sendOTP,
+    verifyOTP,
     // changePassword
     showProfile,
 } = require("../controllers/user.controller.js");
@@ -21,7 +21,12 @@ router.get('/forget-password', async (req, res) => {
 });
 router.post('/forget-password', forgetPassword)
 router.get('/account', showProfile);
-// router.post('/sendOTP', sendOTP);
+router.get('/verify-otp', (req, res) => {
+    return res.render("auth/verify-otp", {
+        message: "User signed up successfully. Please check your email for the OTP."
+    });
+});
+router.post('/verify-otp', verifyOTP);
 // router.post('/changePassword', auth, changePassword)
 
 module.exports = router;

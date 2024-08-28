@@ -1,63 +1,68 @@
-const otpTemplate = (otp, name) => {
+exports.otpTemplate = (otp, name) => {
     return `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ShortZoid - Verification Code</title>
-        <style>
-            body {
-                background-color: #f4f4f4;
-                font-family: Arial, sans-serif;
-                font-size: 16px;
-                line-height: 1.6;
-                color: #333333;
-                margin: 0;
-                padding: 0;
-            }
-    
-            .container {
-                max-width: 600px;
-                margin: 0 auto;
-                padding: 20px;
-                text-align: center;
-                background-color: #ffffff;
-                border-radius: 5px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            }
-    
-            .message {
-                font-size: 24px;
-                font-weight: bold;
-                margin-bottom: 20px;
-            }
-    
-            .body {
-                font-size: 18px;
-                margin-bottom: 20px;
-            }
-    
-            .otp {
-                font-size: 28px;
-                font-weight: bold;
-                color: #0070f3; 
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="message">OTP Verification Email</div>
-            <div class="body">
-                <p>Dear ${name},</p>
-                <p>Please use the following OTP
-                    (One-Time Password) to verify your account:</p>
-                <h2 class="otp">${otp}</h2>
-                <p>This OTP is valid for 10 minutes. If you did not request this verification, please disregard this email.
-                    Once your account is verified, you will have access to our platform and its features.</p>
-            </div>
-        </div>
-    </body>
-    </html>`;
-};
+<html lang="en">
 
-module.exports = otpTemplate;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Email Verification</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9ff;
+            font-family: 'Raleway', sans-serif;
+            color: #000;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: #1386e5;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>OTP Email Verification</h1>
+      <p>Hey ${name}</p>
+      
+      <p>Thank you for choosing ShortZoid. Use the following OTP to complete the procedure to verify your email address. OTP is valid for <strong>30 minutes</strong>. Do not share this code with others.</p>
+      <h2>${otp}</h2>
+        <p>If you have not signed up, you can safely ignore this.</p>
+    </div>
+    <div class="footer">
+        <p>ShortZoid - a URL Shortener &amp; QR Code Generator</p>
+        <p>Made with ❤ by <a href="https://www.linkedin.com/in/pulkitgarg04/" target="_blank">Pulkit Garg</a></p>
+    </div>
+</body>
+
+</html>`;
+};

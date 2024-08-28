@@ -1,9 +1,15 @@
 const User = require("../models/user.model.js");
+const OTP = require("../models/otp.model.js");
 const jwt = require("jsonwebtoken");
 const { setUser } = require("../services/auth");
 
 const sendMail = require("../utils/mailSender.js");
 const { forgetPasswordTemplate } = require("../mailTemplates/forgetPasswordTemplate.mailTemplate.js");
+const { otpTemplate } = require("../mailTemplates/otpVerification.mailTemplate.js");
+
+function generateOTP() {
+    return Math.floor(Math.random() * 900000 + 100000).toString();
+}
 
 // Handle User Signup
 async function signUp(req, res) {
@@ -33,12 +39,22 @@ async function signUp(req, res) {
                 error: "Error generating token. Please try again.",
             });
         }
+
         res.cookie("token", token);
 
-        return res.redirect("/dashboard");
+        const otp = generateOTP();
+
+        const otpDocument = new OTP({ email, otp });
+        await otpDocument.save();
+
+        const htmlContent = otpTemplate(otp, newUser.name);
+
+        await sendMail(newUser.email, "ShortZoid Login: Here's the verification code you requested", htmlContent);
+
+        return res.redirect("/user/verify-otp");
     } catch (error) {
-        // console.error("Error during signup:", error);
-        return res.status(500).render("signup", { error: "Error creating account. Please try again." });
+        console.error("Error during signup:", error);
+        return res.status(500).render("auth/signup", { error: "Error creating account. Please try again." });
     }
 };
 
@@ -52,14 +68,14 @@ async function login(req, res) {
         });
 
         if (!user) {
-            return res.render("login", {
+            return res.render("auth/login", {
                 error: "Invalid Username or Password",
             });
         }
 
         const token = setUser(user);
         if (!token) {
-            return res.render("login", {
+            return res.render("auth/login", {
                 error: "Error generating token. Please try again.",
             });
         }
@@ -82,14 +98,6 @@ async function logout(req, res) {
 async function forgetPassword(req, res) {
     try {
         const { email } = req.body;
-
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!emailPattern.test(email)) {
-            return res.render("forget-password").json({
-                success: false,
-                message: "Please Provide a valid Email Address.",
-            });
-        }
 
         const user = await User.findOne({ email });
 
@@ -120,6 +128,31 @@ async function forgetPassword(req, res) {
         return res.render("auth/forget-password", {
             error: 'Error sending email. Please try again later.'
         });
+    }
+}
+
+// Verify Email through OTP
+async function verifyOTP(req, res) {
+    try {
+        const { email, otp } = req.body;
+
+        const userOTP = await OTP.findOne({ email, otp });
+
+        if(!userOTP) {
+            return res.render("auth/verify-otp", {
+                error: "Invalid OTP or OTP has expired"
+            });
+        }
+
+        await User.updateOne({ email }, { $set: { isVerified: true } });
+        await OTP.deleteOne({ email, otp });
+
+        res.redirect("/dashboard");
+    } catch (err) {
+        console.error("Error during OTP verification:", error);
+        return {
+            error: "An error occurred during OTP verification",
+        };
     }
 }
 
@@ -188,6 +221,7 @@ module.exports = {
     login,
     logout,
     forgetPassword,
+    verifyOTP,
     showProfile,
     renderEditAccountPage,
     editAccountInfo

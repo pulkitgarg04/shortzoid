@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         lowercase: true,
-        unique: true
+        // unique: true
     },
     password: {
         type: String,
@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: {
         type: String
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 });
