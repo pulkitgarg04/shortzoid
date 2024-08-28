@@ -14,11 +14,7 @@ function generateOTP() {
 // Handle User Signup
 async function signUp(req, res) {
     try {
-        const {
-            name,
-            email,
-            password
-        } = req.body;
+        const { name, email, password } = req.body;
 
         const checkForExistingUser = await User.findOne({ email });
         if (checkForExistingUser) {
@@ -27,11 +23,7 @@ async function signUp(req, res) {
             });
         }
 
-        const newUser = await User.create({
-            name,
-            email,
-            password
-        });
+        const newUser = await User.create({ name, email, password });
 
         const token = setUser(newUser);
         if (!token) {
@@ -43,20 +35,46 @@ async function signUp(req, res) {
         res.cookie("token", token);
 
         const otp = generateOTP();
-
         const otpDocument = new OTP({ email, otp });
         await otpDocument.save();
 
         const htmlContent = otpTemplate(otp, newUser.name);
-
         await sendMail(newUser.email, "ShortZoid Login: Here's the verification code you requested", htmlContent);
 
-        return res.redirect("/user/verify-otp");
+        // return res.redirect("/user/verify-otp");
+        return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}`);
     } catch (error) {
         console.error("Error during signup:", error);
         return res.status(500).render("auth/signup", { error: "Error creating account. Please try again." });
     }
 };
+
+// Resend Email Verification OTP
+async function resendOTP(req, res) {
+    try {
+        const email = req.email;
+        // console.log(email);
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).render('auth/verify-otp', { error: "User not found" });
+        }
+
+        const otp = generateOTP();
+        const otpDocument = new OTP({ email, otp });
+        await otpDocument.save();
+
+        const htmlContent = otpTemplate(otp, user.name);
+        await sendMail(email, "ShortZoid Login: Here's your new verification code", htmlContent);
+
+        return res.render('auth/verify-otp', {
+            message: "OTP has been resent. Please check your email.",
+            email
+        });
+    } catch (error) {
+        console.error("Error during OTP resend:", error);
+        return res.status(500).render('auth/verify-otp', { error: "An error occurred. Please try again." });
+    }
+}
 
 // Handle User Login
 async function login(req, res) {
@@ -71,6 +89,10 @@ async function login(req, res) {
             return res.render("auth/login", {
                 error: "Invalid Username or Password",
             });
+        }
+
+        if (!user.isVerified) {
+            return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}`);
         }
 
         const token = setUser(user);
@@ -134,13 +156,16 @@ async function forgetPassword(req, res) {
 // Verify Email through OTP
 async function verifyOTP(req, res) {
     try {
-        const { email, otp } = req.body;
+        const email = req.query.email;
+        // console.log(email);
+        const { otp } = req.body;
 
         const userOTP = await OTP.findOne({ email, otp });
 
         if(!userOTP) {
             return res.render("auth/verify-otp", {
-                error: "Invalid OTP or OTP has expired"
+                error: "Invalid OTP or OTP has expired",
+                email
             });
         }
 
@@ -222,6 +247,7 @@ module.exports = {
     logout,
     forgetPassword,
     verifyOTP,
+    resendOTP,
     showProfile,
     renderEditAccountPage,
     editAccountInfo
