@@ -5,31 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShortZoid - URL Shortener</title>
-    <link rel="stylesheet" href="/css/dashboard.css" type="text/css">
-    <link rel="stylesheet" href="/css/header.css" type="text/css">
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
     <header>
-        <div class="header">
-            <a href="/dashboard" class="logo">ShortZoid</a>
-            <i class='bx bx-menu' id="menu-icon"></i>
-            <nav class="navbar">
-                <a href="/dashboard">Home</a>
-                <a href="/dashboard/manage-urls">Manage URLs</a>
-                <a href="/dashboard/analytics">Analytics</a>
-                <a href="/user/profile">Account</a>
-                <a href="/logout">Logout</a>
-            </nav>
+        <h1>ShortZoid</h1>
+        <div>
+            <ul id="navbar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard/manage-urls/">Manage URLs</a></li>
+                <li><a href="/dashboard/qrcodes/">Generate QR Codes</a></li>
+                <li><a href="/dashboard/analytics/">Analytics</a></li>
+                <li><a href="/user/account">My Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
         </div>
     </header>
-
     <section id="create-url">
         <form action="/url" method="POST">
             <label for="url">Enter the URL: </label>
@@ -58,15 +55,6 @@
                 alert("Failed to copy the URL");
             });
         }
-
-    const menuIcon = document.querySelector('#menu-icon');
-    const navbar = document.querySelector('.navbar');
-    const navbg = document.querySelector('.nav-bg');
-    menuIcon.addEventListener('click', () => {
-        menuIcon.classList.toggle('bx-x');
-        navbar.classList.toggle('active');
-        navbg.classList.toggle('active');
-    });
     </script>
 </body>
 

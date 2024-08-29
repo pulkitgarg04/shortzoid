@@ -2,14 +2,64 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: "Poppins", sans-serif;
+    color: #fff;
 }
 
 body {
-    background-color: #191C33;
+    width: 100%;
+    background-color: rgb(43, 43, 43);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 80px;
+    background-color: #000;
     color: #fff;
-    text-align: center;
-    min-height: 100vh;
+    box-shadow: 0 5px 15px rgb(0, 0, 0, 0.06);
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 90px;
+}
+
+#navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
+
+#navbar li a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #979797;
+    transition: 0.3s ease;
+}
+
+#navbar li a:hover,
+#navbar li a.active {
+    color: #fff;
+}
+
+#navbar li a.active:after,
+#navbar li a:hover::after {
+    content: "";
+    width: 30%;
+    height: 2px;
+    background-color: #fff;
+    position: absolute;
+    bottom: -3px;
+    left: 22px;
 }
 
 #edit-info {
@@ -20,7 +70,7 @@ body {
 
 #edit-info-box {
     margin-top: 25px;
-    width: 40vw;
+    width: 50vw;
     background-color: rgba(255, 255, 255, 0.13);
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -58,7 +108,6 @@ input, select {
     margin-top: 5px;
     font-size: 14px;
     font-weight: 300;
-    color: #fff;
 }
 
 option {

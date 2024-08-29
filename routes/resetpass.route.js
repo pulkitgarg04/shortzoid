@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/user.model.js");
 
-const sendMail = require("../utils/mailSender.js");
-const { passwordUpdated } = require("../mailTemplates/passwordUpdateEmail.mailTemplate.js");
-
 router.get('/:token', async (req, res) => {
     const { token } = req.params;
     res.render('auth/reset-password', { token });
@@ -36,9 +33,6 @@ router.post('/:token', async (req, res) => {
         user.password = password;
         user.resetPasswordToken = undefined;
         await user.save();
-
-        const htmlContent = passwordUpdated(user.name, user.resetRequestDate, user.resetRequestLocation);
-        await sendMail(user.email, 'ShortZoid - Your Password Has Been Successfully Updated', htmlContent);
 
         res.redirect('/login');
     } catch (err) {

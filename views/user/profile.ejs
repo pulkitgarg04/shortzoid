@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account - ShortZoid</title>
     <link rel="stylesheet" href="/css/account.css" type="text/css">
-    <link rel="stylesheet" href="/css/header.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,30 +15,22 @@
 
 <body>
     <header>
-        <div class="header">
-            <a href="/dashboard" class="logo">ShortZoid</a>
-            <i class='bx bx-menu' id="menu-icon"></i>
-            <nav class="navbar">
-                <a href="/dashboard">Home</a>
-                <a href="/dashboard/manage-urls">Manage URLs</a>
-                <a href="/dashboard/analytics">Analytics</a>
-                <a href="/user/profile">Account</a>
-                <a href="/logout">Logout</a>
-            </nav>
+        <h1>ShortZoid</h1>
+        <div>
+            <ul id="navbar">
+                <li><a href="/">Home</a></li>
+                <li><a href="/url/analytics/">My URLs</a></li>
+                <li><a class="active" href="/user/account">My Account</a></li>
+                <li><a href="/user/logout">Logout</a></li>
+            </ul>
         </div>
     </header>
-
     <section id="user-info">
         <div class="user-info-header">
             <h2>Account Information</h2>
-            <div>
-                <a href="/user/profile/edit">
-                    <button class="btn">Edit Profile</button>
-                </a>
-                <a href="/user/change-password">
-                    <button class="btn">Change Password</button>
-                </a>
-            </div>
+            <a href="/user/account/edit">
+                <button class="edit-btn">Edit Profile</button>
+            </a>
         </div>
         <div class="info">
             <% if (user.gender === 'Male') { %>
@@ -47,7 +38,7 @@
             <% } else if (user.gender === 'Female') { %>
                 <img src="/user/female.png" height="200px">
             <% } else { %>
-                <img src="/user/user.png" height="200px">
+                <img src="/user/male.png" height="200px">
             <% } %>
             <div class="info-box">
                 <p><strong>Name:</strong> <%= user.name || 'Name not available' %></p>

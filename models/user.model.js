@@ -28,12 +28,6 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken: {
         type: String
     },
-    resetRequestDate: {
-        type: Date
-    },
-    resetRequestLocation: {
-        type: String
-    },
     isVerified: {
         type: Boolean,
         default: false
