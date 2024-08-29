@@ -1,21 +1,17 @@
 const express = require("express");
-
+const { loggedIn } = require("../middlewares/auth.middleware.js");
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', loggedIn, (req, res) => {
     res.render("dashboard/index");
 });
 
-router.get('/manage-urls', (req, res) => {
+router.get('/manage-urls', loggedIn, (req, res) => {
     res.render("dashboard/manage-urls");
 });
 
-router.get('/analytics', (req, res) => {
+router.get('/analytics', loggedIn, (req, res) => {
     res.render("dashboard/analytics");
-});
-
-router.get('/qrcodes', (req, res) => {
-    res.render("dashboard/generate-qr-code");
 });
 
 module.exports = router;
