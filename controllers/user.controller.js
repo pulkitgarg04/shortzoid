@@ -181,6 +181,11 @@ async function verifyOTP(req, res) {
     }
 }
 
+// Handle Change Password
+async function changePassword(req, res) {
+    
+}
+
 // Show Account Info
 async function showProfile(req, res) {
     try {
@@ -248,6 +253,7 @@ module.exports = {
     forgetPassword,
     verifyOTP,
     resendOTP,
+    changePassword,
     showProfile,
     renderEditAccountPage,
     editAccountInfo

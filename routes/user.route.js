@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { auth } = require("../middlewares/auth.middleware.js");
+const { checkAuthentication } = require("../middlewares/auth.middleware.js");
 const {
     signUp,
     login,
@@ -8,7 +8,7 @@ const {
     forgetPassword,
     verifyOTP,
     resendOTP,
-    // changePassword
+    changePassword,
     showProfile,
 } = require("../controllers/user.controller.js");
 
@@ -40,6 +40,6 @@ router.get('/verify-otp', (req, res) => {
 });
 router.post('/verify-otp', verifyOTP);
 router.get('/resend-otp', extractEmail, resendOTP);
-// router.post('/changePassword', auth, changePassword)
+router.post('/changePassword', checkAuthentication, changePassword)
 
 module.exports = router;
