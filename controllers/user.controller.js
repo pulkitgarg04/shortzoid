@@ -1,11 +1,13 @@
 const User = require("../models/user.model.js");
 const OTP = require("../models/otp.model.js");
 const jwt = require("jsonwebtoken");
-const { setUser } = require("../services/auth");
+const { setUser, getUser } = require("../services/auth");
+const axios = require('axios');
 
 const sendMail = require("../utils/mailSender.js");
 const { forgetPasswordTemplate } = require("../mailTemplates/forgetPasswordTemplate.mailTemplate.js");
 const { otpTemplate } = require("../mailTemplates/otpVerification.mailTemplate.js");
+const { passwordUpdated } = require("../mailTemplates/passwordUpdateEmail.mailTemplate.js");
 
 function generateOTP() {
     return Math.floor(Math.random() * 900000 + 100000).toString();
@@ -92,7 +94,14 @@ async function login(req, res) {
         }
 
         if (!user.isVerified) {
-            return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}`);
+            const otp = generateOTP();
+            const otpDocument = new OTP({ email, otp });
+            await otpDocument.save();
+
+            const htmlContent = otpTemplate(otp, user.name);
+            await sendMail(user.email, "ShortZoid Login: Here's the verification code you requested", htmlContent);
+
+            return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}&error=${encodeURIComponent("You need to verify your email before logging in. We have sent OTP on your email!")}`);
         }
 
         const token = setUser(user);
@@ -104,8 +113,8 @@ async function login(req, res) {
         res.cookie("token", token);
         return res.redirect('/dashboard');
     } catch (error) {
-        // console.error("Error during login:", error);
-        return res.status(500).render("login", {
+        console.error("Error during login:", error);
+        return res.status(500).render("auth/login", {
             error: "Internal Server Error. Please try again."
         });
     }
@@ -129,16 +138,33 @@ async function forgetPassword(req, res) {
             });
         }
 
+        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log('IP Address:', ipAddress);
+        const now = new Date();
+        const dateTime = now.toISOString();
+
+        const geoUrl = `http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`;
+        try {
+            const response = await axios.get(geoUrl);
+            const locationData = response.data;
+            const location = `${locationData.city || 'N/A'}, ${locationData.region_name || 'N/A'}, ${locationData.country_name || 'N/A'}`;
+            user.resetRequestLocation = location;
+        } catch (error) {
+            console.error('Error fetching geolocation data:', error);
+            user.resetRequestLocation = 'Location data unavailable';
+        }
+
         const token = jwt.sign(
             { id: user.id },
             process.env.SECRET,
         );
 
         user.resetPasswordToken = token;
+        user.resetRequestDate = dateTime;
+        user.resetRequestLocation = location;
         await user.save();
 
         const resetUrl = `http://${req.headers.host}/reset-password/${token}`;
-
         const htmlContent = forgetPasswordTemplate(resetUrl, user.name);
 
         await sendMail(user.email, 'Reset your ShortZoid password', htmlContent);
@@ -162,7 +188,7 @@ async function verifyOTP(req, res) {
 
         const userOTP = await OTP.findOne({ email, otp });
 
-        if(!userOTP) {
+        if (!userOTP) {
             return res.render("auth/verify-otp", {
                 error: "Invalid OTP or OTP has expired",
                 email
@@ -204,17 +230,6 @@ async function showProfile(req, res) {
     }
 };
 
-// Render Account Info
-async function renderEditAccountPage(req, res) {
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-        return res.redirect('/user/login');
-    }
-
-    return res.render('edit-profile', { user });
-}
-
 // Edit Account Info
 async function editAccountInfo(req, res) {
     try {
@@ -238,13 +253,60 @@ async function editAccountInfo(req, res) {
             return res.status(404).json({ error: "User not found." });
         }
 
-        res.redirect('/user/account');
+        res.redirect('/user/profile');
 
     } catch (error) {
         // console.error("Error updating profile:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
+
+// Handle Change Password
+async function changePassword(req, res) {
+    try {
+        const tokenCookie = req.cookies?.token;
+
+        const user = await getUser(tokenCookie);
+        if (!user) return res.redirect('/login');
+
+        const { password, 'confirm-password': confirmPassword } = req.body;
+
+        if (password !== confirmPassword) {
+            return res.status(400).render('auth/reset-password', {
+                token,
+                error: 'Passwords do not match. Please try again.'
+            });
+        }
+
+        user.password = password;
+
+        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        console.log('IP Address:', ipAddress);
+        const now = new Date();
+        const dateTime = now.toISOString();
+
+        const geoUrl = `http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`;
+
+        const response = await axios.get(geoUrl);
+        const locationData = response.data;
+        const location = `${locationData.city || 'N/A'}, ${locationData.region_name || 'N/A'}, ${locationData.country_name || 'N/A'}`;
+        user.resetRequestLocation = location;
+
+        user.resetRequestDate = dateTime;
+        user.resetRequestLocation = location;
+        await user.save();
+
+        const htmlContent = passwordUpdated(user.name, user.resetRequestDate, user.resetRequestLocation);
+        await sendMail(user.email, 'ShortZoid - Your Password Has Been Successfully Updated', htmlContent);
+
+        res.redirect('/user/profile');
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({
+            error: 'An error occurred while resetting the password. Please try again later.'
+        });
+    }
+}
 
 module.exports = {
     signUp,
@@ -255,6 +317,6 @@ module.exports = {
     resendOTP,
     changePassword,
     showProfile,
-    renderEditAccountPage,
-    editAccountInfo
+    editAccountInfo,
+    changePassword
 };
