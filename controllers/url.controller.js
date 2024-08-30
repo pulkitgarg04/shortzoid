@@ -11,11 +11,13 @@ async function handleGenerateNewShortURL(req, res) {
     }
 
     const shortID = shortid();
+    const qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=500&margin=null&color=000000&bgcolor=ffffff&format=png&data=${url}`;
 
     try {
         await URL.create({
             shortID: shortID,
             redirectURL: body.url,
+            qrcode: qrcode,
             visitHistory: [],
             createdBy: req.user._id
         });
@@ -32,7 +34,7 @@ async function handleGenerateNewShortURL(req, res) {
     }
 }
 
-async function handleGetAnalytics(req, res) {
+async function manageURLs(req, res) {
     try {
         const userId = req.user._id;
         const userURLs = await URL.find({ createdBy: userId });
@@ -43,7 +45,7 @@ async function handleGetAnalytics(req, res) {
             });
         }
 
-        return res.render("analytics", {
+        return res.render("dashboard/manage", {
             urls: userURLs
         });
 
@@ -82,6 +84,6 @@ async function handleDeleteURL(req, res) {
 
 module.exports = {
     handleGenerateNewShortURL,
-    handleGetAnalytics,
+    manageURLs,
     handleDeleteURL
 };

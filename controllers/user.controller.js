@@ -207,11 +207,6 @@ async function verifyOTP(req, res) {
     }
 }
 
-// Handle Change Password
-async function changePassword(req, res) {
-    
-}
-
 // Show Account Info
 async function showProfile(req, res) {
     try {
@@ -266,7 +261,8 @@ async function changePassword(req, res) {
     try {
         const tokenCookie = req.cookies?.token;
 
-        const user = await getUser(tokenCookie);
+        const decodedToken = getUser(tokenCookie);
+        const user = await User.findById(decodedToken._id);
         if (!user) return res.redirect('/login');
 
         const { password, 'confirm-password': confirmPassword } = req.body;

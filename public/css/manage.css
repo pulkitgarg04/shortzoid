@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #191C33;
+    color: #fff;
+    text-align: center;
+    min-height: 100vh;
+}
+
+#user-urls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table {
+    width: 60vw;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 35px 35px;
+    border-collapse: collapse;
+    margin: 30px;
+}
+
+td, th {
+    text-align: center;
+    padding: 10px;
+}
+
+td a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+td img {
+    width: 100px;
+}
+
+thead {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #080710;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.copy-btn {
+    cursor: pointer;
+}

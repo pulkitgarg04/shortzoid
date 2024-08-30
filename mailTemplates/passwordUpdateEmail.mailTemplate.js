@@ -56,7 +56,7 @@ exports.passwordUpdated = (name, resetDate, resetLocation) => {
         
         <p>Your password for your ShortZoid account has been successfully updated. If you made this change, no further action is required.</p>
 
-        <p><strong>Request Details:</strong></p>
+        <h4>Request Details:</h4>
         <p>Date and Time of Request: ${resetDate}</p>
         <p>Location of Request: ${resetLocation}</p>
         
