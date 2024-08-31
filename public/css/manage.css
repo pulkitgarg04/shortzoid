@@ -41,6 +41,7 @@ td a {
 
 td img {
     width: 100px;
+    border: 2px solid #fff;
 }
 
 thead {

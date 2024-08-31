@@ -8,6 +8,69 @@
 body {
     background-color: #191C33;
     color: #fff;
-    text-align: center;
     min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#create-url,
+#generated-url-box {
+    min-width: 30vw;
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 35px 35px;
+}
+
+#generated-url-box {
+    margin-top: 50px;
+}
+
+h2 {
+    text-align: center;
+}
+
+form, form div {
+    margin-top: 1rem;
+}
+
+label {
+    display: block;
+    margin-top: 25px;
+    font-size: 16px;
+}
+
+input {
+    display: block;
+    height: 40px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 300;
+    color: #fff;
+}
+
+.btn {
+    background-color: #ffffff;
+    color: #080710;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.copy-btn {
+    margin-left: 15px;
 }

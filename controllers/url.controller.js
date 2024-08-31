@@ -1,7 +1,7 @@
 const shortid = require('shortid');
 const URL = require('../models/url.model.js');
 
-async function handleGenerateNewShortURL(req, res) {
+async function generateNewURL(req, res) {
     const body = req.body;
 
     if (!body.url) {
@@ -11,7 +11,7 @@ async function handleGenerateNewShortURL(req, res) {
     }
 
     const shortID = shortid();
-    const qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=500&margin=null&color=000000&bgcolor=ffffff&format=png&data=${url}`;
+    const qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=500&margin=null&color=000000&bgcolor=ffffff&format=png&data=${body.url}`;
 
     try {
         await URL.create({
@@ -22,8 +22,9 @@ async function handleGenerateNewShortURL(req, res) {
             createdBy: req.user._id
         });
 
-        return res.render("home", {
+        return res.render("dashboard/index", {
             id: shortID,
+            qrcode: qrcode
         });
 
     } catch (error) {
@@ -83,7 +84,7 @@ async function handleDeleteURL(req, res) {
 }
 
 module.exports = {
-    handleGenerateNewShortURL,
+    generateNewURL,
     manageURLs,
     handleDeleteURL
 };

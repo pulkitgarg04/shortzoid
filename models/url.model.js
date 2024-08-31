@@ -18,9 +18,21 @@ const urlSchema = new mongoose.Schema({
         timestamp: {
             type: Number,
             required: true
+        },
+        location: {
+            type: String,
+            required: true
+        },
+        browser: {
+            type: String,
+            required: true
+        },
+        device: {
+            type: String,
+            required: true
         }
     }],
-    createdBy : {
+    createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     }

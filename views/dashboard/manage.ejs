@@ -42,6 +42,7 @@
                         <th scope="col">Clicks</th>
                         <th scope="col">QR Code</th>
                         <th scope="col">Download QR Code</th>
+                        <th scope="col">View Analytics</th>
                         <th scope="col">Delete Shorten URL</th>
                     </tr>
                 </thead>
@@ -64,6 +65,11 @@
                             </td>
                             <td>
                                 <button class="btn" onclick="downloadQRCode('<%= url.qrcode %>', '<%= url.shortID %>')">Download</button>
+                            </td>
+                            <td>
+                                <a href="/url/analytics/<%= url.shortID %>">
+                                    <button class="btn">View</button>
+                                </a>
                             </td>
                             <td class="delete-btn" onclick="deleteURL('<%= url.shortID %>')">
                                 <i class="fa-solid fa-trash"></i>

@@ -1,0 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #191C33;
+    color: #fff;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.analytics-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.analytics-container div {
+    height: 200px;
+    width: 400px;
+}
+
+.total-clicks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -8,7 +8,6 @@
 body {
     background-color: #191C33;
     color: #fff;
-    text-align: center;
     min-height: 100vh;
 }
 
@@ -27,6 +26,10 @@ body {
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
     padding: 35px 35px;
+}
+
+h2 {
+    text-align: center;
 }
 
 .user-info-header {

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - ShortZoid</title>
+    <link rel="stylesheet" href="/css/header.css" type="text/css">
+    <link rel="stylesheet" href="/css/analytics.css" type="text/css">
+    <link rel="icon" type="image/x-icon" href="/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/69a72a2c24.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header">
+            <a href="/dashboard" class="logo">ShortZoid</a>
+            <i class='bx bx-menu' id="menu-icon"></i>
+            <nav class="navbar">
+                <a href="/dashboard">Home</a>
+                <a href="/dashboard/manage">Manage URLs</a>
+                <a href="/dashboard/analytics">Analytics</a>
+                <a href="/user/profile">Account</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="analytics-container">
+        <div class="total-clicks">
+            <h3>Total Number of Clicks: <span class="total-number-of-clicks"><%= totalNumberOfClicks %></span></h3>
+        </div>
+        <div>
+            <canvas id="deviceTypeChart" width="400" height="200"></canvas>
+        </div>
+        <div>
+            <canvas id="browserChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStats() {
+            const response = await fetch('/url/analytics/s/<%= shortID %>');
+            const stats = await response.json();
+            return stats;
+        }
+
+        async function renderCharts() {
+            const stats = await fetchStats();
+
+            const ctx1 = document.getElementById('deviceTypeChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Mobile', 'Desktop', 'Tablet'],
+                    datasets: [{
+                        label: 'Device Types',
+                        data: [stats.deviceTypes.Mobile, stats.deviceTypes.Desktop, stats.deviceTypes.Tablet],
+                        backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('browserChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: stats.uniqueBrowsers,
+                    datasets: [{
+                        label: 'Browsers',
+                        data: stats.uniqueBrowsers.map(browser => stats.visitHistory.filter(visit => visit.browser === browser).length),
+                        backgroundColor: '#ffcd56',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        renderCharts();
+    </script>
+</body>
+
+</html>

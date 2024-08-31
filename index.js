@@ -10,7 +10,7 @@ const ejs = require("ejs");
 // Routes
 const staticRoute = require('./routes/static.route.js');
 const dashboardRoute = require('./routes/dashboard.route.js');
-// const urlRoute = require('./routes/url.route');
+const urlRoute = require('./routes/url.route');
 const userRoute = require('./routes/user.route');
 const redirectRoute = require('./routes/redirect.route');
 const resetPasswordRoute = require('./routes/resetpass.route');
@@ -39,7 +39,7 @@ app.use('/user', userRoute);
 app.use('/dashboard', checkAuthentication, dashboardRoute);
 app.use('/r', redirectRoute);
 app.use('/reset-password', resetPasswordRoute);
-// app.use('/url', urlRoute);
+app.use('/url', urlRoute);
 
 app.listen(process.env.PORT || 8000, () => {
     console.log(`⚙️  Server is running at port: ${process.env.PORT}`);

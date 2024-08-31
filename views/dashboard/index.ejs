@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 
 <body>
@@ -31,23 +32,33 @@
     </header>
 
     <section id="create-url">
+        <h2>Create New</h2>
         <form action="/url" method="POST">
-            <label for="url">Enter the URL: </label>
-            <input type="text" name="url" placeholder="https://example.com">
-
-            <button type="submit">Generate</button>
+            <div>
+                <label for="name">Name: </label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="url">Destination: </label>
+                <input type="text" name="url" id="url" placeholder="https://example.com">
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn">Generate</button>
+            </div>
         </form>
 
-        <div>
-            <% if (typeof id !=='undefined' ) { %>
-                <div class="generated-url-box">
-                    <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
-                        <button type="button" onclick="copyURL()">Copy</button>
-                    </p>
-                </div>
-                <% } %>
-        </div>
     </section>
+
+    <div>
+        <% if (typeof id !=='undefined' ) { %>
+        <div id="generated-url-box">
+            <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/idsfdhtre</span>
+                <button type="button" class="btn copy-btn" onclick="copyURL()">Copy <i class="fa fa-copy"></i></button>
+                <button type="button" class="btn copy-btn" onclick="downloadQRCode('<%= qrcode %>', 'https://shortzoid.vercel.app/r/<%= id %>')">Download QR Code</button>
+            </p>
+        </div>
+        <% } %>
+    </div>
 
     <script>
         function copyURL() {
@@ -59,14 +70,27 @@
             });
         }
 
-    const menuIcon = document.querySelector('#menu-icon');
-    const navbar = document.querySelector('.navbar');
-    const navbg = document.querySelector('.nav-bg');
-    menuIcon.addEventListener('click', () => {
-        menuIcon.classList.toggle('bx-x');
-        navbar.classList.toggle('active');
-        navbg.classList.toggle('active');
-    });
+        function downloadQRCode(qrCodeUrl, shortID) {
+            fetch(qrCodeUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const fileName = `${shortID}-qrcode.png`;
+                    saveAs(blob, fileName);
+                })
+                .catch(err => {
+                    console.error("Error downloading QR code:", err);
+                    alert("Failed to download QR code.");
+                });
+        }
+
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+        const navbg = document.querySelector('.nav-bg');
+        menuIcon.addEventListener('click', () => {
+            menuIcon.classList.toggle('bx-x');
+            navbar.classList.toggle('active');
+            navbg.classList.toggle('active');
+        });
     </script>
 </body>
 
