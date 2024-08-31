@@ -2,8 +2,7 @@ const express = require("express");
 const router = express.Router();
 const URL = require("../models/url.model.js");
 
-async function getBrowser(userAgent) {
-    if (navigator.brave && (await navigator.brave.isBrave())) return "Brave";
+function getBrowser(userAgent) {
     if (userAgent.includes("Edg")) return "Edge";
     if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) return "Chrome";
     if (userAgent.includes("Firefox")) return "Firefox";
@@ -24,7 +23,7 @@ router.get('/:shortID', async (req, res) => {
     const userAgent = req.headers['user-agent'];
 
     try {
-        const browser = await getBrowser(userAgent);
+        const browser = getBrowser(userAgent);
         const device = getDevice(userAgent);
         const visit = {
             timestamp: Date.now(),
@@ -48,7 +47,7 @@ router.get('/:shortID', async (req, res) => {
 
         res.redirect(entry.redirectURL);
     } catch (error) {
-        console.error(error);
+        console.error('Error in /:shortID route:', error);
         res.status(500).send({
             error: 'Internal Server Error'
         });
