@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pulkitgarg04/ShortZoid.git"
+    "url": "git+https://github.com/pulkitgarg04/shortzoid.git"
   },
   "author": "Pulkit Garg",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pulkitgarg04/ShortZoid/issues"
+    "url": "https://github.com/pulkitgarg04/shortzoid/issues"
   },
-  "homepage": "https://github.com/pulkitgarg04/ShortZoid#readme",
+  "homepage": "https://github.com/pulkitgarg04/shortzoid#readme",
   "dependencies": {
     "axios": "^1.7.5",
     "chart.js": "^4.4.4",
