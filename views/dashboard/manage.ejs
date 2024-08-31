@@ -37,12 +37,12 @@
                     <tr>
                         <th scope="col">S.No</th>
                         <th scope="col">Copy Shorten URL</th>
+                        <th scope="col">Name</th>
                         <th scope="col">ShortID</th>
-                        <th scope="col">Redirect Link</th>
+                        <th scope="col">Destination</th>
                         <th scope="col">Clicks</th>
                         <th scope="col">QR Code</th>
                         <th scope="col">Download QR Code</th>
-                        <th scope="col">View Analytics</th>
                         <th scope="col">Delete Shorten URL</th>
                     </tr>
                 </thead>
@@ -53,6 +53,7 @@
                             <td class="copy-btn" onclick="copyURL('<%= url.shortID %>')">
                                 <i class="fa-solid fa-copy"></i>
                             </td>
+                            <td><%= url.name || url.shortID %></td>
                             <td><a href="https://shortzoid.vercel.app/r/<%= url.shortID %>"><%= url.shortID %></a></td>
                             <td><a href="<%= url.redirectURL %>"><%= url.redirectURL %></a></td>
                             <td><%= url.visitHistory.length %></td>
@@ -65,11 +66,6 @@
                             </td>
                             <td>
                                 <button class="btn" onclick="downloadQRCode('<%= url.qrcode %>', '<%= url.shortID %>')">Download</button>
-                            </td>
-                            <td>
-                                <a href="/url/analytics/<%= url.shortID %>">
-                                    <button class="btn">View</button>
-                                </a>
                             </td>
                             <td class="delete-btn" onclick="deleteURL('<%= url.shortID %>')">
                                 <i class="fa-solid fa-trash"></i>

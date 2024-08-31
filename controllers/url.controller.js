@@ -15,6 +15,7 @@ async function generateNewURL(req, res) {
 
     try {
         await URL.create({
+            name: body.name || body.url,
             shortID: shortID,
             redirectURL: body.url,
             qrcode: qrcode,
@@ -58,6 +59,29 @@ async function manageURLs(req, res) {
     }
 }
 
+async function renderAnalytics(req, res) {
+    try {
+        const userId = req.user._id;
+        const userURLs = await URL.find({ createdBy: userId });
+
+        if (!userURLs) {
+            return res.status(404).send({
+                error: 'URLs not found'
+            });
+        }
+
+        return res.render("dashboard/analytics", {
+            urls: userURLs
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send({
+            error: 'Internal Server Error'
+        });
+    }
+}
+
 async function handleDeleteURL(req, res) {
     const { shortID } = req.params;
 
@@ -86,5 +110,6 @@ async function handleDeleteURL(req, res) {
 module.exports = {
     generateNewURL,
     manageURLs,
+    renderAnalytics,
     handleDeleteURL
 };

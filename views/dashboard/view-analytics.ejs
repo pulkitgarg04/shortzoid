@@ -32,9 +32,16 @@
         </div>
     </header>
 
+    <div class="link-info">
+        <h3>Name: <%= name || shortID %></h3>
+        <h3>Short ID: <%= shortID %></h3>
+        <h3>Destination: <%= redirectURL %></h3>
+    </div>
+
     <div class="analytics-container">
         <div class="total-clicks">
-            <h3>Total Number of Clicks: <span class="total-number-of-clicks"><%= totalNumberOfClicks %></span></h3>
+            <h3>Total Number of Clicks:</h3>
+            <span class="total-number-of-clicks"><%= totalNumberOfClicks %></span>
         </div>
         <div>
             <canvas id="deviceTypeChart" width="400" height="200"></canvas>

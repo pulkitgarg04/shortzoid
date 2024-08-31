@@ -1,6 +1,6 @@
 const URL = require('../models/url.model');
 
-exports.singleURLStats = async(req, res) => {
+exports.singleURLStats = async (req, res) => {
     const { shortID } = req.params;
 
     try {

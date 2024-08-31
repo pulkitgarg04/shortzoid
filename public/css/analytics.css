@@ -15,11 +15,22 @@ body {
     flex-direction: column;
 }
 
+.link-info {
+    width: 50vw;
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 35px 35px;
+}
+
 .analytics-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-top: 100px;
 }
 
 .analytics-container div {
@@ -31,4 +42,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+.total-number-of-clicks {
+    font-size: 3rem;
+    margin-top: 1rem;
 }

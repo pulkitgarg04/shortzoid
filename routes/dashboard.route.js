@@ -2,8 +2,8 @@ const express = require("express");
 const { loggedIn } = require("../middlewares/auth.middleware.js");
 const router = express.Router();
 const {
-    handleGenerateNewShortURL,
     manageURLs,
+    renderAnalytics
 } = require("../controllers/url.controller.js");
 
 router.get('/', loggedIn, (req, res) => {
@@ -12,8 +12,6 @@ router.get('/', loggedIn, (req, res) => {
 
 router.get('/manage', loggedIn, manageURLs);
 
-router.get('/analytics', loggedIn, (req, res) => {
-    res.render("dashboard/analytics");
-});
+router.get('/analytics', loggedIn, renderAnalytics);
 
 module.exports = router;
