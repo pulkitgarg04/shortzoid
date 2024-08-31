@@ -14,12 +14,10 @@ exports.singleURLStats = async (req, res) => {
 
         const totalVisits = visitHistory.length;
         const uniqueBrowsers = new Set();
-        const uniqueLocations = new Set();
         const deviceTypes = { Mobile: 0, Desktop: 0, Tablet: 0 };
 
         visitHistory.forEach(visit => {
             uniqueBrowsers.add(visit.browser);
-            uniqueLocations.add(visit.location);
 
             if (visit.device === 'Mobile') {
                 deviceTypes.Mobile += 1;
@@ -35,7 +33,6 @@ exports.singleURLStats = async (req, res) => {
             redirectURL: urlEntry.redirectURL,
             totalVisits: totalVisits,
             uniqueBrowsers: Array.from(uniqueBrowsers),
-            uniqueLocations: Array.from(uniqueLocations),
             deviceTypes: deviceTypes,
             visitHistory: visitHistory,
         };

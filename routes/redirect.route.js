@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const URL = require("../models/url.model.js");
-const geoip = require('geoip-lite');
 
 async function getBrowser(userAgent) {
     if (navigator.brave && (await navigator.brave.isBrave())) return "Brave";
@@ -27,14 +26,8 @@ router.get('/:shortID', async (req, res) => {
     try {
         const browser = await getBrowser(userAgent);
         const device = getDevice(userAgent);
-        const ip = req.ip || req.connection.remoteAddress || "Unknown";
-
-        const geo = geoip.lookup(ip);
-        const location = geo ? `${geo.city}, ${geo.country}` : "Unknown";
-
         const visit = {
             timestamp: Date.now(),
-            location: location,
             browser: browser,
             device: device
         }

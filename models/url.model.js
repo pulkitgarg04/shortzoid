@@ -22,10 +22,6 @@ const urlSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
-        location: {
-            type: String,
-            required: true
-        },
         browser: {
             type: String,
             required: true
