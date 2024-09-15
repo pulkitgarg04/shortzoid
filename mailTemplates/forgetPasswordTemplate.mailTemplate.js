@@ -1,4 +1,4 @@
-exports.forgetPasswordTemplate = (link, name) => {
+exports.forgetPasswordTemplate = (link, name, resetRequestDate) => {
     return `<!DOCTYPE html>
 <html lang="en">
 
@@ -67,10 +67,12 @@ exports.forgetPasswordTemplate = (link, name) => {
 <body>
     <div class="container">
         <h1>Forget your password?</h1>
-        <p>Dear ${name}, If you've lost your password or wish to reset it, click the button below to get started:</p>
+        <p>Dear ${name},</p>
+        <p>If you've lost your password or wish to reset it, click the button below to get started:</p>
         <a href="${link}" class="button">Reset Your Password</a>
-        <p>If you're facing any problem using button, try clicking on the link below:</p>
+        <p>If you're facing any problems using the button, try clicking on the link below:</p>
         <a href="${link}">${link}</a>
+        <p>Your password reset request was made on: <strong>${resetRequestDate}</strong>.</p>
         <p>If you did not request a password reset, you can safely ignore this.</p>
     </div>
     <div class="footer">

@@ -99,7 +99,7 @@ async function login(req, res) {
             await otpDocument.save();
 
             const htmlContent = otpTemplate(otp, user.name);
-            await sendMail(user.email, "ShortZoid Login: Here's the verification code you requested", htmlContent);
+            await sendMail(user.email, "ShortZoid - Here's the verification code you requested", htmlContent);
 
             return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}&error=${encodeURIComponent("You need to verify your email before logging in. We have sent OTP on your email!")}`);
         }
@@ -138,21 +138,8 @@ async function forgetPassword(req, res) {
             });
         }
 
-        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        console.log('IP Address:', ipAddress);
         const now = new Date();
         const dateTime = now.toISOString();
-
-        const geoUrl = `http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`;
-        try {
-            const response = await axios.get(geoUrl);
-            const locationData = response.data;
-            const location = `${locationData.city || 'N/A'}, ${locationData.region_name || 'N/A'}, ${locationData.country_name || 'N/A'}`;
-            user.resetRequestLocation = location;
-        } catch (error) {
-            console.error('Error fetching geolocation data:', error);
-            user.resetRequestLocation = 'Location data unavailable';
-        }
 
         const token = jwt.sign(
             { id: user.id },
@@ -161,13 +148,12 @@ async function forgetPassword(req, res) {
 
         user.resetPasswordToken = token;
         user.resetRequestDate = dateTime;
-        user.resetRequestLocation = location;
         await user.save();
 
         const resetUrl = `http://${req.headers.host}/reset-password/${token}`;
-        const htmlContent = forgetPasswordTemplate(resetUrl, user.name);
+        const htmlContent = forgetPasswordTemplate(resetUrl, user.name, user.resetRequestDate);
 
-        await sendMail(user.email, 'Reset your ShortZoid password', htmlContent);
+        await sendMail(user.email, 'ShortZoid - Reset your ShortZoid password', htmlContent);
 
         return res.render("auth/forget-password", {
             message: 'Password reset link has been sent to your email.',
@@ -276,23 +262,13 @@ async function changePassword(req, res) {
 
         user.password = password;
 
-        const ipAddress = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-        console.log('IP Address:', ipAddress);
         const now = new Date();
         const dateTime = now.toISOString();
 
-        const geoUrl = `http://api.ipstack.com/${ipAddress}?access_key=${process.env.IPSTACK_API_KEY}`;
-
-        const response = await axios.get(geoUrl);
-        const locationData = response.data;
-        const location = `${locationData.city || 'N/A'}, ${locationData.region_name || 'N/A'}, ${locationData.country_name || 'N/A'}`;
-        user.resetRequestLocation = location;
-
         user.resetRequestDate = dateTime;
-        user.resetRequestLocation = location;
         await user.save();
 
-        const htmlContent = passwordUpdated(user.name, user.resetRequestDate, user.resetRequestLocation);
+        const htmlContent = passwordUpdated(user.name, user.resetRequestDate);
         await sendMail(user.email, 'ShortZoid - Your Password Has Been Successfully Updated', htmlContent);
 
         res.redirect('/user/profile');

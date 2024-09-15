@@ -31,9 +31,6 @@ const userSchema = new mongoose.Schema({
     resetRequestDate: {
         type: Date
     },
-    resetRequestLocation: {
-        type: String
-    },
     isVerified: {
         type: Boolean,
         default: false

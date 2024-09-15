@@ -1,4 +1,4 @@
-exports.passwordUpdated = (name, resetDate, resetLocation) => {
+exports.passwordUpdated = (name, resetDate) => {
     return `<!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +58,6 @@ exports.passwordUpdated = (name, resetDate, resetLocation) => {
 
         <h4>Request Details:</h4>
         <p>Date and Time of Request: ${resetDate}</p>
-        <p>Location of Request: ${resetLocation}</p>
         
         <p>If you did not request this change, please contact our support team immediately to secure your account.</p>
         
