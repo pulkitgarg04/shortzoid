@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../models/user.model.js");
+const bcrypt = require('bcryptjs');
 
 const sendMail = require("../utils/mailSender.js");
 const { passwordUpdated } = require("../mailTemplates/passwordUpdateEmail.mailTemplate.js");
@@ -33,11 +34,12 @@ router.post('/:token', async (req, res) => {
             });
         }
 
-        user.password = password;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
         user.resetPasswordToken = undefined;
         await user.save();
 
-        const htmlContent = passwordUpdated(user.name, user.resetRequestDate, user.resetRequestLocation);
+        const htmlContent = passwordUpdated(user.name, user.resetRequestDate);
         await sendMail(user.email, 'ShortZoid - Your Password Has Been Successfully Updated', htmlContent);
 
         res.redirect('/login');

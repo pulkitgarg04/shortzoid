@@ -3,6 +3,7 @@ const OTP = require("../models/otp.model.js");
 const jwt = require("jsonwebtoken");
 const { setUser, getUser } = require("../services/auth");
 const axios = require('axios');
+const bcrypt = require("bcryptjs");
 
 const sendMail = require("../utils/mailSender.js");
 const { forgetPasswordTemplate } = require("../mailTemplates/forgetPasswordTemplate.mailTemplate.js");
@@ -25,7 +26,9 @@ async function signUp(req, res) {
             });
         }
 
-        const newUser = await User.create({ name, email, password });
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await User.create({ name, email, password: hashedPassword });
 
         const token = setUser(newUser);
         if (!token) {
@@ -82,14 +85,18 @@ async function resendOTP(req, res) {
 async function login(req, res) {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({
-            email,
-            password
-        });
 
+        const user = await User.findOne({ email });
         if (!user) {
             return res.render("auth/login", {
-                error: "Invalid Username or Password",
+                error: "User doesn't exist. Please sign up first.",
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).render("auth/login", {
+                error: "Wrong Password. Please try again.",
             });
         }
 
@@ -260,7 +267,8 @@ async function changePassword(req, res) {
             });
         }
 
-        user.password = password;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
 
         const now = new Date();
         const dateTime = now.toISOString();
