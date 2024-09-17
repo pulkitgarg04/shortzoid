@@ -15,7 +15,13 @@ function getBrowser(userAgent) {
 }
 
 function getDevice(userAgent) {
-    return /Mobi|Android/i.test(userAgent) ? "Mobile" : "Desktop";
+    if (/Tablet|iPad/i.test(userAgent)) {
+        return "Tablet";
+    } else if (/Mobi|Android/i.test(userAgent)) {
+        return "Mobile";
+    } else {
+        return "Desktop";
+    }
 }
 
 router.get('/:shortID', async (req, res) => {
