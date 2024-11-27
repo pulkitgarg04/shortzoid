@@ -52,9 +52,9 @@
     <div>
         <% if (typeof id !=='undefined' ) { %>
         <div id="generated-url-box">
-            <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/idsfdhtre</span>
+            <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
                 <button type="button" class="btn copy-btn" onclick="copyURL()">Copy <i class="fa fa-copy"></i></button>
-                <button type="button" class="btn copy-btn" onclick="downloadQRCode('<%= qrcode %>', 'https://shortzoid.vercel.app/r/<%= id %>')">Download QR Code</button>
+                <button type="button" class="btn copy-btn" onclick="downloadQRCode('<%= qrcode %>', 'shortzoid.vercel.app<%= id %>')">Download QR Code</button>
             </p>
         </div>
         <% } %>
