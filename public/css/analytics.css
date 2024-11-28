@@ -16,7 +16,8 @@ body {
 }
 
 .link-info {
-    width: 50vw;
+    width: 90%;
+    max-width: 800px;
     background-color: rgba(255, 255, 255, 0.13);
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -48,4 +49,8 @@ body {
 .total-number-of-clicks {
     font-size: 3rem;
     margin-top: 1rem;
+}
+
+.chart {
+    margin-top: 20px;
 }

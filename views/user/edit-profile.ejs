@@ -11,6 +11,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 </head>
 
@@ -52,6 +53,23 @@
             </form>
         </div>
     </section>
+
+    <script>
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+        const createUrlSection = document.querySelector('#edit-info');
+
+        menuIcon.addEventListener('click', () => {
+            menuIcon.classList.toggle('bx-x');
+            navbar.classList.toggle('active');
+
+            if (navbar.classList.contains('active')) {
+                createUrlSection.style.marginTop = `${navbar.offsetHeight + 20}px`;
+            } else {
+                createUrlSection.style.marginTop = '20px';
+            }
+        });
+    </script>
 </body>
 
 </html>

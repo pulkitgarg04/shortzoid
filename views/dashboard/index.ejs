@@ -17,20 +17,8 @@
 </head>
 
 <body>
-    <header>
-        <div class="header">
-            <a href="/dashboard" class="logo">ShortZoid</a>
-            <i class='bx bx-menu' id="menu-icon"></i>
-            <nav class="navbar">
-                <a href="/dashboard">Home</a>
-                <a href="/dashboard/manage">Manage URLs</a>
-                <a href="/dashboard/analytics">Analytics</a>
-                <a href="/user/profile">Account</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        </div>
-    </header>
-
+    <%- include('header') %>
+    
     <section id="create-url">
         <h2>Create New</h2>
         <form action="/url" method="POST">
@@ -46,7 +34,6 @@
                 <button type="submit" class="btn">Generate</button>
             </div>
         </form>
-
     </section>
 
     <div>
@@ -85,11 +72,17 @@
 
         const menuIcon = document.querySelector('#menu-icon');
         const navbar = document.querySelector('.navbar');
-        const navbg = document.querySelector('.nav-bg');
+        const createUrlSection = document.querySelector('#create-url');
+
         menuIcon.addEventListener('click', () => {
             menuIcon.classList.toggle('bx-x');
             navbar.classList.toggle('active');
-            navbg.classList.toggle('active');
+
+            if (navbar.classList.contains('active')) {
+                createUrlSection.style.marginTop = `${navbar.offsetHeight + 20}px`;
+            } else {
+                createUrlSection.style.marginTop = '20px';
+            }
         });
     </script>
 </body>

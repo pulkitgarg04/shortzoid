@@ -13,24 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/69a72a2c24.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@2"></script>
 </head>
 
 <body>
-    <header>
-        <div class="header">
-            <a href="/dashboard" class="logo">ShortZoid</a>
-            <i class='bx bx-menu' id="menu-icon"></i>
-            <nav class="navbar">
-                <a href="/dashboard">Home</a>
-                <a href="/dashboard/manage">Manage URLs</a>
-                <a href="/dashboard/analytics">Analytics</a>
-                <a href="/user/profile">Account</a>
-                <a href="/logout">Logout</a>
-            </nav>
-        </div>
-    </header>
+    <%- include('header') %>
 
     <div class="link-info">
         <h3>Name: <%= name || shortID %></h3>
@@ -43,15 +32,30 @@
             <h3>Total Number of Clicks:</h3>
             <span class="total-number-of-clicks"><%= totalNumberOfClicks %></span>
         </div>
-        <div>
+        <div class="chart">
             <canvas id="deviceTypeChart" width="400" height="200"></canvas>
         </div>
-        <div>
+        <div class="chart">
             <canvas id="browserChart" width="400" height="200"></canvas>
         </div>
     </div>
 
     <script>
+        const menuIcon = document.querySelector('#menu-icon');
+        const navbar = document.querySelector('.navbar');
+        const createUrlSection = document.querySelector('.link-info');
+
+        menuIcon.addEventListener('click', () => {
+            menuIcon.classList.toggle('bx-x');
+            navbar.classList.toggle('active');
+
+            if (navbar.classList.contains('active')) {
+                createUrlSection.style.marginTop = `${navbar.offsetHeight + 20}px`;
+            } else {
+                createUrlSection.style.marginTop = '20px';
+            }
+        });
+
         async function fetchStats() {
             const response = await fetch('/url/analytics/s/<%= shortID %>');
             const stats = await response.json();

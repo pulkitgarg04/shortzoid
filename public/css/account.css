@@ -8,12 +8,12 @@
 body {
     background-color: #191C33;
     color: #fff;
-    /* text-align: center; */
     min-height: 100vh;
 }
 
 #user-info {
-    width: 50vw;
+    width: 70%;
+    max-width: 650px;
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;
     transform: translate(-50%, -50%);
@@ -50,4 +50,32 @@ body {
 
 .info-box p {
     margin-top: 5px;
+}
+
+@media (max-width: 800px) {
+    .user-info-header {
+        text-align: center;
+        flex-direction: column;
+    }
+    
+    .user-info-header div {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 650px) {
+    .info {
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .info-box {
+        margin-top: 1rem;
+    }
+
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
