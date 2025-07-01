@@ -1,12 +1,30 @@
 const shortid = require('shortid');
 const URL = require('../models/url.model.js');
 
+function checkIfURL(string) {
+  let url;
+  
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;  
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 async function generateNewURL(req, res) {
     const body = req.body;
 
     if (!body.url) {
-        return res.status(400).send({
+        return res.status(400).render("dashboard/index", {
             error: 'URL is missing'
+        });
+    }
+
+    if (!checkIfURL(body.url)) {
+        return res.status(400).render("dashboard/index", {
+            error: 'Please enter a valid URL!'
         });
     }
 

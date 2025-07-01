@@ -47,6 +47,38 @@
         <% } %>
     </div>
 
+    <% if (typeof error !== 'undefined') { %>
+      <div id="toast" class="toast-error"><%= error %></div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const toast = document.getElementById('toast');
+          if (toast) {
+            toast.style.display = 'block';
+            setTimeout(() => {
+              toast.style.display = 'none';
+              window.location.href = '/dashboard';
+            }, 2500);
+          }
+        });
+      </script>
+      <style>
+        .toast-error {
+          display: none;
+          position: fixed;
+          top: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #e74c3c;
+          color: #fff;
+          padding: 16px 32px;
+          border-radius: 6px;
+          font-size: 1.1em;
+          z-index: 9999;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+      </style>
+    <% } %>
+
     <script>
         function copyURL() {
             const copyText = document.getElementById("generated-url").innerText;
