@@ -4,42 +4,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>ShortZoid - a URL Shortening and QR Code Generatoring Website</title>
+    <title>ShortZoid - URL Shortener & QR Code Generator</title>
     <link rel="stylesheet" href="/css/home.css" type="text/css">
     <link rel="icon" type="image/x-icon" href="/favicon.svg">
 
     <script src="https://kit.fontawesome.com/69a72a2c24.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <h1>ShortZoid</h1>
-    <h2>Shorten URLs and Generate QR Codes!</h2>
-    <p class="description">Shorten, Share, and Track Your Links Effortlessly - Boost Your Online Presence with
-        ShortZoid, Your Smart URL Companion.</p>
-    <a href="/login"><button class="btn">Get Started</button></a>
-    <div id="feature-container">
-        <div class="feature-box">
-            <i class="fa-solid fa-scissors"></i>
-            <h3 class="feature-box-title">Shorten URLs</h3>
-            <p class="feature-box-description">Effortlessly shorten your URLs with precision and speed using our smart
-                shortening tool.</p>
+    <nav class="navbar">
+        <div class="logo">ShortZoid</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="/login" class="btn btn-nav">Login</a>
         </div>
-        <div class="feature-box">
-            <i class="fa-solid fa-chart-column"></i>
-            <h3 class="feature-box-title">Track URL Clicks</h3>
-            <p class="feature-box-description">Gain insights with detailed click analytics to optimize your link
-                performance.</p>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Shorten URLs & <br>Generate QR Codes!</h1>
+            <p class="description">Shorten, Share, and Track Your Links Effortlessly. Boost Your Online Presence with ShortZoid, Your Smart URL Companion.</p>
+            <div class="hero-actions">
+                <a href="/login" class="btn btn-primary">Get Started</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
         </div>
-        <div class="feature-box">
-            <i class="fa-solid fa-qrcode"></i>
-            <h3 class="feature-box-title">Generate QR Codes</h3>
-            <p class="feature-box-description">Instantly create custom QR codes to share your links with ease, anywhere.
-            </p>
+        <div class="hero-visual">
+            <div class="visual-card">
+                <i class="fa-solid fa-link"></i>
+            </div>
         </div>
-    </div>
-    <p id="copyright">© 2024 ShortZoid. All rights reserved.</p>
+    </header>
+
+    <section id="features" class="features-section">
+        <h2 class="section-title">Our Superpowers</h2>
+        <div class="feature-grid">
+            <div class="feature-card card-yellow">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-scissors"></i>
+                </div>
+                <h3>Shorten URLs</h3>
+                <p>Effortlessly shorten your URLs with precision and speed using our smart shortening tool.</p>
+            </div>
+            <div class="feature-card card-blue">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+                <h3>Track URL Clicks</h3>
+                <p>Gain insights with detailed click analytics to optimize your link performance.</p>
+            </div>
+            <div class="feature-card card-pink">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <h3>Generate QR Codes</h3>
+                <p>Instantly create custom QR codes to share your links with ease, anywhere.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-image">
+                <div class="profile-circle">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+            </div>
+            <div class="about-content">
+                <h2>Boost your productivity</h2>
+                <p>ShortZoid is built for speed and reliability. Whether you are a marketer, a developer, or just sharing a link with a friend, we've got you covered.</p>
+                <ul class="benefits-list">
+                    <li><i class="fa-solid fa-check"></i> 99.9% Uptime</li>
+                    <li><i class="fa-solid fa-check"></i> Fast Redirection</li>
+                    <li><i class="fa-solid fa-check"></i> Secure & Reliable</li>
+                </ul>
+                <a href="/login" class="btn btn-black">Join Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter-section">
+        <div class="newsletter-box">
+            <h2>Subscribe to our newsletter</h2>
+            <form class="newsletter-form" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="Enter your email address">
+                <button type="submit" class="btn btn-black">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>ShortZoid</h3>
+                <p>Making the web shorter, one link at a time.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Pages</h4>
+                <a href="#">Home</a>
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact</h4>
+                <p>support@shortzoid.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 ShortZoid. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 
 </html>

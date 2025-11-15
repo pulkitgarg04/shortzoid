@@ -1,130 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --primary-yellow: #FFD700;
+    --primary-blue: #4D96FF;
+    --primary-pink: #FF6B6B;
+    --primary-green: #6BCB77;
+    --border-width: 3px;
+    --shadow-offset: 4px;
+    --border-radius: 12px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 body {
-    background-color: #191C33;
-    color: #fff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     text-align: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 20px;
+    padding: 0;
 }
 
 #user-urls {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
+    padding: 40px 20px;
 }
 
 table {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    border-collapse: collapse;
-    margin: 30px auto;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: 8px 8px 0px 0px var(--text-color);
+    border-collapse: separate;
+    border-spacing: 0;
+    border: var(--border-width) solid var(--text-color);
     overflow: hidden;
 }
 
 table thead {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--primary-yellow);
     text-transform: uppercase;
+    border-bottom: var(--border-width) solid var(--text-color);
 }
 
 table thead th {
-    padding: 12px 10px;
-    font-size: 14px;
+    padding: 15px 10px;
+    font-size: 16px;
     letter-spacing: 0.05em;
-    font-weight: bold;
+    font-weight: 800;
+    color: var(--text-color);
+    border-bottom: var(--border-width) solid var(--text-color);
 }
 
 table tbody tr {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     transition: background 0.3s ease;
 }
 
 table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: #f0f0f0;
 }
 
 table tbody td {
-    padding: 12px 10px;
-    font-size: 14px;
+    padding: 15px 10px;
+    font-size: 16px;
     text-align: center;
+    color: var(--text-color);
+    border-bottom: 1px solid #000;
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 table tbody td a {
-    color: #ffffff;
-    text-decoration: underline;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
     transition: color 0.3s ease;
 }
 
 table tbody td a:hover {
-    color: #bababa;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
 }
 
 table tbody td .btn {
-    background-color: #ffffff;
-    color: #080710;
+    background-color: #fff;
+    color: var(--text-color);
     padding: 8px 16px;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 700;
     text-transform: uppercase;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid var(--text-color);
+    border-radius: 8px;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 2px 2px 0px 0px var(--text-color);
 }
 
 table tbody td .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 20px rgba(255, 205, 113, 0.6);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0px 0px var(--text-color);
+}
+
+table tbody td .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px var(--text-color);
 }
 
 @media screen and (max-width: 900px) {
     table {
         border: 0;
+        box-shadow: none;
+        background: transparent;
     }
 
     table thead {
         display: none;
     }
-
+    
     table tbody tr {
         display: block;
-        margin-bottom: 15px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
-        padding: 15px;
+        margin-bottom: 20px;
+        border: var(--border-width) solid var(--text-color);
+        border-radius: var(--border-radius);
+        background: #fff;
+        box-shadow: 4px 4px 0px 0px var(--text-color);
     }
-
+    
     table tbody td {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        font-size: 14px;
-        text-align: left;
+        display: block;
+        text-align: right;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
     }
-
+    
+    table tbody td:last-child {
+        border-bottom: none;
+    }
+    
     table tbody td::before {
         content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
         font-weight: bold;
-        text-transform: uppercase;
-        color: #bbb;
-        margin-right: 10px;
-    }
-
-    table tbody td:last-child {
-        text-align: center;
     }
 }

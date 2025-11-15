@@ -1,15 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --primary-yellow: #FFD700;
+    --primary-blue: #4D96FF;
+    --primary-pink: #FF6B6B;
+    --primary-green: #6BCB77;
+    --border-width: 3px;
+    --shadow-offset: 4px;
+    --border-radius: 12px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 body {
-    background-color: #191C33;
-    color: #fff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     min-height: 100vh;
-
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -18,12 +31,12 @@ body {
 .link-info {
     width: 90%;
     max-width: 800px;
-    background-color: rgba(255, 255, 255, 0.13);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    padding: 35px 35px;
+    background-color: #fff;
+    border: var(--border-width) solid var(--text-color);
+    border-radius: var(--border-radius);
+    box-shadow: 8px 8px 0px 0px var(--text-color);
+    padding: 40px;
+    margin-top: 40px;
 }
 
 .analytics-container {
@@ -31,12 +44,22 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 50px;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
 }
 
 .analytics-container div {
-    height: 200px;
+    height: auto;
+    min-height: 200px;
     width: 400px;
+    background-color: #fff;
+    border: var(--border-width) solid var(--text-color);
+    border-radius: var(--border-radius);
+    box-shadow: 6px 6px 0px 0px var(--text-color);
+    padding: 20px;
 }
 
 .total-clicks {
@@ -44,13 +67,15 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: var(--primary-yellow) !important;
 }
 
 .total-number-of-clicks {
-    font-size: 3rem;
+    font-size: 4rem;
     margin-top: 1rem;
+    font-weight: 800;
 }
 
 .chart {
-    margin-top: 20px;
+    margin-top: 0;
 }

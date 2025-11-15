@@ -1,5 +1,5 @@
 const shortid = require('shortid');
-const URL = require('../models/url.model.js');
+const URLModel = require('../models/url.model.js');
 
 function checkIfURL(string) {
   let url;
@@ -32,7 +32,7 @@ async function generateNewURL(req, res) {
     const qrcode = `https://api.qrserver.com/v1/create-qr-code/?size=500&margin=null&color=000000&bgcolor=ffffff&format=png&data=${body.url}`;
 
     try {
-        await URL.create({
+        await URLModel.create({
             name: body.name || body.url,
             shortID: shortID,
             redirectURL: body.url,
@@ -57,7 +57,7 @@ async function generateNewURL(req, res) {
 async function manageURLs(req, res) {
     try {
         const userId = req.user._id;
-        const userURLs = await URL.find({ createdBy: userId });
+        const userURLs = await URLModel.find({ createdBy: userId });
 
         if (!userURLs) {
             return res.status(404).send({
@@ -80,7 +80,7 @@ async function manageURLs(req, res) {
 async function renderAnalytics(req, res) {
     try {
         const userId = req.user._id;
-        const userURLs = await URL.find({ createdBy: userId });
+        const userURLs = await URLModel.find({ createdBy: userId });
 
         if (!userURLs) {
             return res.status(404).send({
@@ -104,7 +104,7 @@ async function handleDeleteURL(req, res) {
     const { shortID } = req.params;
 
     try {
-        const result = await URL.findOneAndDelete({
+        const result = await URLModel.findOneAndDelete({
             shortID: shortID,
             createdBy: req.user._id
         });

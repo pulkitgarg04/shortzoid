@@ -1,15 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --primary-yellow: #FFD700;
+    --primary-blue: #4D96FF;
+    --primary-pink: #FF6B6B;
+    --primary-green: #6BCB77;
+    --border-width: 3px;
+    --shadow-offset: 4px;
+    --border-radius: 12px;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 body {
-    background-color: #191C33;
-    color: #fff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     min-height: 100vh;
-    padding: 10px;
+    padding: 0;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -18,24 +32,29 @@ body {
 #create-url {
     width: 90%;
     max-width: 600px;
+    margin-top: 50px;
 }
 
 #create-url,
 #generated-url-box {
-    background-color: rgba(255, 255, 255, 0.13);
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-    padding: 35px 35px;
+    background-color: #fff;
+    border: var(--border-width) solid var(--text-color);
+    border-radius: var(--border-radius);
+    box-shadow: 8px 8px 0px 0px var(--text-color);
+    padding: 40px;
 }
 
 #generated-url-box {
     margin-top: 50px;
+    width: 90%;
+    max-width: 600px;
 }
 
 h2 {
     text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 20px;
 }
 
 form, form div {
@@ -44,43 +63,81 @@ form, form div {
 
 label {
     display: block;
-    margin-top: 25px;
-    font-size: 16px;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 input {
     display: block;
-    height: 40px;
+    height: 50px;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 5px;
-    font-size: 14px;
-    font-weight: 300;
-    color: #fff;
+    background-color: #fff;
+    border: var(--border-width) solid var(--text-color);
+    border-radius: var(--border-radius);
+    padding: 0 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+}
+
+input:focus {
+    box-shadow: 4px 4px 0px 0px var(--text-color);
+    transform: translate(-2px, -2px);
 }
 
 .btn {
-    background-color: #ffffff;
-    color: #080710;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: var(--primary-blue);
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: var(--border-radius);
     cursor: pointer;
+    border: var(--border-width) solid var(--text-color);
+    font-weight: 700;
+    font-size: 18px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--text-color);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0px 0px var(--text-color);
+}
+
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px var(--text-color);
 }
 
 .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 30px;
 }
 
 .copy-btn {
     margin-left: 15px;
+    background-color: var(--primary-yellow);
+    color: var(--text-color);
 }
 
 @media (max-width: 768px) {
     .btn {
         margin-top: 10px;
+        width: 100%;
+    }
+    
+    .btn-container {
+        flex-direction: column;
+    }
+    
+    .copy-btn {
+        margin-left: 0;
     }
 }
+
+
