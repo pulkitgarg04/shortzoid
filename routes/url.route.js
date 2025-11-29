@@ -1,14 +1,31 @@
 const express = require("express");
+const multer = require("multer");
 const {
     generateNewURL,
-    handleDeleteURL
+    handleDeleteURL,
+    bulkCreateURLs,
+    verifyLinkPassword
 } = require("../controllers/url.controller.js");
 
 const { singleURLStats } = require('../controllers/analytics.controller');
 const URL = require("../models/url.model.js");
 const router = express.Router();
 
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'text/csv' || file.originalname.endsWith('.csv')) {
+            cb(null, true);
+        } else {
+            cb(new Error('Only CSV files are allowed'), false);
+        }
+    }
+});
+
 router.post('/', generateNewURL);
+router.post('/bulk', upload.single('csvFile'), bulkCreateURLs);
+router.post('/verify-password/:shortID', verifyLinkPassword);
 router.delete('/delete/:shortID', handleDeleteURL);
 router.get('/analytics/:shortID', async (req, res) => {
     const shortID = req.params.shortID;

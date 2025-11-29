@@ -4,11 +4,15 @@ async function loggedIn(req, res, next) {
     const tokenCookie = req.cookies?.token;
     if(!tokenCookie) return res.redirect('/login');
 
-    const user = await getUser(tokenCookie);
-    if(!user) return res.redirect('/login');
-
-    req.user = user;
-    return next();
+    try {
+        const user = getUser(tokenCookie);
+        if(!user) return res.redirect('/login');
+    
+        req.user = user;
+        return next();
+    } catch (error) {
+        return res.redirect('/login');
+    }
 }
 
 async function checkAuthentication(req, res, next) {
@@ -16,13 +20,25 @@ async function checkAuthentication(req, res, next) {
     req.user = null;
     if(!tokenCookie) return next();
 
-    const token = tokenCookie;
-    const user = getUser(token);
-    req.user = user;
+    try {
+        const token = tokenCookie;
+        const user = getUser(token);
+        req.user = user;
+    } catch (error) {
+        req.user = null;
+    }
+    return next();
+}
+
+function redirectIfLoggedIn(req, res, next) {
+    if (req.user) {
+        return res.redirect('/dashboard');
+    }
     return next();
 }
 
 module.exports = {
     loggedIn,
-    checkAuthentication
+    checkAuthentication,
+    redirectIfLoggedIn
 }

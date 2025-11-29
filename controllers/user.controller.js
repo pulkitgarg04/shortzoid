@@ -14,7 +14,6 @@ function generateOTP() {
     return Math.floor(Math.random() * 900000 + 100000).toString();
 }
 
-// Handle User Signup
 async function signUp(req, res) {
     try {
         const { name, email, password } = req.body;
@@ -46,7 +45,6 @@ async function signUp(req, res) {
         const htmlContent = otpTemplate(otp, newUser.name);
         await sendMail(newUser.email, "ShortZoid Login: Here's the verification code you requested", htmlContent);
 
-        // return res.redirect("/user/verify-otp");
         return res.redirect(`/user/verify-otp?email=${encodeURIComponent(email)}`);
     } catch (error) {
         console.error("Error during signup:", error);
@@ -54,11 +52,9 @@ async function signUp(req, res) {
     }
 };
 
-// Resend Email Verification OTP
 async function resendOTP(req, res) {
     try {
         const email = req.email;
-        // console.log(email);
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).render('auth/verify-otp', { error: "User not found" });
@@ -81,7 +77,6 @@ async function resendOTP(req, res) {
     }
 }
 
-// Handle User Login
 async function login(req, res) {
     try {
         const { email, password } = req.body;
@@ -127,12 +122,10 @@ async function login(req, res) {
     }
 }
 
-// Handle User Logout
 async function logout(req, res) {
     return res.clearCookie('token').redirect('/');
 }
 
-// Handle forget password route
 async function forgetPassword(req, res) {
     try {
         const { email } = req.body;
@@ -172,11 +165,9 @@ async function forgetPassword(req, res) {
     }
 }
 
-// Verify Email through OTP
 async function verifyOTP(req, res) {
     try {
         const email = req.query.email;
-        // console.log(email);
         const { otp } = req.body;
 
         const userOTP = await OTP.findOne({ email, otp });
@@ -200,7 +191,6 @@ async function verifyOTP(req, res) {
     }
 }
 
-// Show Account Info
 async function showProfile(req, res) {
     try {
         if (!req.user) {
@@ -218,7 +208,6 @@ async function showProfile(req, res) {
     }
 };
 
-// Edit Account Info
 async function editAccountInfo(req, res) {
     try {
         const user = req.user._id;
@@ -244,12 +233,10 @@ async function editAccountInfo(req, res) {
         res.redirect('/user/profile');
 
     } catch (error) {
-        // console.error("Error updating profile:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
-// Handle Change Password
 async function changePassword(req, res) {
     try {
         const tokenCookie = req.cookies?.token;

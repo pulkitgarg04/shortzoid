@@ -30,20 +30,160 @@
                 <label for="url">Destination: </label>
                 <input type="text" name="url" id="url" placeholder="https://example.com" required>
             </div>
+            
+            <div class="advanced-options" id="advancedOptions">
+                <h3 onclick="toggleAdvanced()">
+                    <i class='bx bx-chevron-down'></i> Advanced Options
+                </h3>
+                <div class="options-content">
+                    <div class="option-group">
+                        <label for="customAlias"><i class='bx bx-link'></i> Custom Alias</label>
+                        <input type="text" name="customAlias" id="customAlias" placeholder="my-custom-link">
+                        <small>Leave empty for auto-generated short code. 3-50 characters, letters, numbers, hyphens, underscores only.</small>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="expiresAt"><i class='bx bx-calendar'></i> Expiration Date</label>
+                        <input type="datetime-local" name="expiresAt" id="expiresAt">
+                        <small>Link will stop working after this date.</small>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="maxClicks"><i class='bx bx-mouse'></i> Max Clicks</label>
+                        <input type="number" name="maxClicks" id="maxClicks" min="1" placeholder="Unlimited">
+                        <small>Link will expire after this many clicks.</small>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="password"><i class='bx bx-lock'></i> Password Protection</label>
+                        <input type="password" name="password" id="password" placeholder="Leave empty for no protection">
+                        <small>Users will need to enter this password to access the link.</small>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="folder"><i class='bx bx-folder'></i> Folder</label>
+                        <select name="folder" id="folder">
+                            <option value="">No Folder</option>
+                            <% if (typeof folders !== 'undefined' && folders.length > 0) { %>
+                                <% folders.forEach(function(folder) { %>
+                                    <option value="<%= folder._id %>"><%= folder.name %></option>
+                                <% }); %>
+                            <% } %>
+                        </select>
+                        <small>Organize your links into folders. <a href="#" onclick="showCreateFolder()">Create new folder</a></small>
+                    </div>
+
+                    <div class="option-group">
+                        <label><i class='bx bx-mobile'></i> Deep Linking (Mobile Apps)</label>
+                        <div class="deep-link-section">
+                            <div>
+                                <label for="iosAppUrl">iOS App URL</label>
+                                <input type="text" name="iosAppUrl" id="iosAppUrl" placeholder="myapp://path">
+                            </div>
+                            <div>
+                                <label for="iosStoreUrl">iOS Fallback (App Store)</label>
+                                <input type="text" name="iosStoreUrl" id="iosStoreUrl" placeholder="https://apps.apple.com/...">
+                            </div>
+                            <div>
+                                <label for="androidAppUrl">Android App URL</label>
+                                <input type="text" name="androidAppUrl" id="androidAppUrl" placeholder="intent://...">
+                            </div>
+                            <div>
+                                <label for="androidStoreUrl">Android Fallback (Play Store)</label>
+                                <input type="text" name="androidStoreUrl" id="androidStoreUrl" placeholder="https://play.google.com/...">
+                            </div>
+                        </div>
+                        <small>Redirect mobile users to your app, with fallback to app stores.</small>
+                    </div>
+                </div>
+            </div>
+
             <div class="btn-container">
                 <button type="submit" class="btn">Generate</button>
             </div>
         </form>
+
+        <div class="bulk-upload-section">
+            <h3><i class='bx bx-upload'></i> Bulk URL Upload</h3>
+            <p>Upload a CSV file to create multiple short URLs at once.</p>
+            <div class="csv-format">
+                Format: url,name,customAlias (one per line)<br>
+                Example:<br>
+                https://example.com,My Link,my-alias<br>
+                https://another.com,Another Link,
+            </div>
+            <form id="bulkUploadForm" enctype="multipart/form-data">
+                <input type="file" name="csvFile" id="csvFile" accept=".csv">
+                <button type="submit" class="btn">Upload & Create</button>
+            </form>
+            <div id="bulkResults"></div>
+        </div>
     </section>
 
     <div>
         <% if (typeof id !=='undefined' ) { %>
-        <div id="generated-url-box">
-            <p>URL Generated: <span id="generated-url">https://shortzoid.vercel.app/r/<%= id %></span>
-                <button type="button" class="btn copy-btn" onclick="copyURL()">Copy <i class="fa fa-copy"></i></button>
-                <button type="button" class="btn copy-btn" onclick="downloadQRCode('<%= qrcode %>', 'shortzoid.vercel.app<%= id %>')">Download QR Code</button>
-            </p>
+        <div id="generated-url-box" style="position: relative;">
+            <div style="display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap;">
+                <!-- Left Side -->
+                <div style="flex: 1; min-width: 300px;">
+                    <div style="margin-bottom: 30px;">
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                            <i class="fas fa-check-circle" style="font-size: 32px; color: var(--primary-green);"></i>
+                            <h3 style="font-size: 24px; margin: 0;">Link Created!</h3>
+                        </div>
+                        <p style="color: #666; margin: 0;">Your link is ready to share.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <label style="font-size: 14px; margin-bottom: 8px; display: block; font-weight: 600;">Shortened URL</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" value="https://shortzoid.vercel.app/r/<%= id %>" id="generated-url-input" readonly style="margin-top: 0; background: #f8f9fa; cursor: text; flex: 1;">
+                            <button type="button" class="btn" onclick="copyURL()" style="padding: 0 20px; background-color: var(--primary-yellow); color: black; min-width: 60px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <a href="/dashboard" class="btn" style="text-decoration: none; display: inline-block; background-color: var(--text-color); color: white; width: 100%; text-align: center;">Create Another Link</a>
+                    </div>
+                </div>
+
+                <!-- Right Side -->
+                <% if (typeof qrcode !== 'undefined') { %>
+                <div style="flex: 0 0 auto; text-align: center; margin: 0 auto;">
+                    <div style="padding: 20px; border: 2px dashed var(--text-color); border-radius: 12px; background: #fff;">
+                        <img src="<%= qrcode %>" alt="QR Code" style="width: 180px; height: 180px; display: block; margin-bottom: 15px;">
+                        <button type="button" class="btn" onclick="downloadQRCode('<%= qrcode %>', 'shortzoid-<%= id %>')" style="font-size: 14px; padding: 10px 20px; width: 100%; background-color: var(--primary-blue);">
+                            <i class="fas fa-download" style="margin-right: 8px;"></i> Download QR
+                        </button>
+                    </div>
+                </div>
+                <% } %>
+            </div>
         </div>
+        
+        <script>
+            function copyURL() {
+                const copyText = document.getElementById("generated-url-input");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); 
+                navigator.clipboard.writeText(copyText.value).then(() => {
+                    alert("URL Copied to clipboard!");
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            }
+
+            function downloadQRCode(url, filename) {
+                fetch(url)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        saveAs(blob, filename + '.png');
+                    })
+                    .catch(console.error);
+            }
+        </script>
         <% } %>
     </div>
 
@@ -61,23 +201,20 @@
           }
         });
       </script>
-      <style>
-        .toast-error {
-          display: none;
-          position: fixed;
-          top: 30px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: #e74c3c;
-          color: #fff;
-          padding: 16px 32px;
-          border-radius: 6px;
-          font-size: 1.1em;
-          z-index: 9999;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-      </style>
     <% } %>
+
+    <!-- Create Folder Modal -->
+    <div id="folderModal">
+        <div class="modal-content">
+            <h3>Create New Folder</h3>
+            <input type="text" id="newFolderName" placeholder="Folder Name">
+            <input type="color" id="newFolderColor" value="#6366f1" class="color-picker">
+            <div class="modal-buttons">
+                <button class="btn" onclick="createFolder()">Create</button>
+                <button class="btn" onclick="hideFolderModal()" style="background: #666;">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         function copyURL() {
@@ -101,6 +238,91 @@
                     alert("Failed to download QR code.");
                 });
         }
+
+        function toggleAdvanced() {
+            document.getElementById('advancedOptions').classList.toggle('open');
+        }
+
+        function showCreateFolder() {
+            event.preventDefault();
+            document.getElementById('folderModal').style.display = 'flex';
+        }
+
+        function hideFolderModal() {
+            document.getElementById('folderModal').style.display = 'none';
+        }
+
+        async function createFolder() {
+            const name = document.getElementById('newFolderName').value;
+            const color = document.getElementById('newFolderColor').value;
+
+            if (!name.trim()) {
+                alert('Please enter a folder name');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/folders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, color })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Add new folder to dropdown
+                    const select = document.getElementById('folder');
+                    const option = document.createElement('option');
+                    option.value = data.folder._id;
+                    option.textContent = data.folder.name;
+                    select.appendChild(option);
+                    select.value = data.folder._id;
+                    hideFolderModal();
+                } else {
+                    alert(data.error || 'Failed to create folder');
+                }
+            } catch (err) {
+                alert('Failed to create folder');
+            }
+        }
+
+        // Bulk upload handler
+        document.getElementById('bulkUploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('csvFile');
+            const resultsDiv = document.getElementById('bulkResults');
+
+            if (!fileInput.files[0]) {
+                alert('Please select a CSV file');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('csvFile', fileInput.files[0]);
+
+            resultsDiv.innerHTML = '<p>Processing...</p>';
+
+            try {
+                const response = await fetch('/url/bulk', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    resultsDiv.innerHTML = `
+                        <p class="success-msg">✓ Created: ${data.created} links</p>
+                        ${data.failed > 0 ? `<p class="error-msg">✗ Failed: ${data.failed}</p>` : ''}
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p class="error-msg">Error: ${data.error}</p>`;
+                }
+            } catch (err) {
+                resultsDiv.innerHTML = '<p class="error-msg">Upload failed</p>';
+            }
+        });
 
         const menuIcon = document.querySelector('#menu-icon');
         const navbar = document.querySelector('.navbar');

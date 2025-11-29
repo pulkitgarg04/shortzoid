@@ -11,6 +11,7 @@ const urlRoute = require('./routes/url.route');
 const userRoute = require('./routes/user.route');
 const redirectRoute = require('./routes/redirect.route');
 const resetPasswordRoute = require('./routes/resetpass.route');
+const folderRoute = require('./routes/folder.route');
 
 const { checkAuthentication } = require("./middlewares/auth.middleware.js");
 const cookieParser = require('cookie-parser');
@@ -33,6 +34,7 @@ app.use('/dashboard', checkAuthentication, dashboardRoute);
 app.use('/r', redirectRoute);
 app.use('/reset-password', resetPasswordRoute);
 app.use('/url', urlRoute);
+app.use('/api/folders', folderRoute);
 
 // Global error handler
 app.use((err, req, res, next) => {

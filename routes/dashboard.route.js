@@ -5,9 +5,11 @@ const {
     manageURLs,
     renderAnalytics
 } = require("../controllers/url.controller.js");
+const Folder = require("../models/folder.model.js");
 
-router.get('/', loggedIn, (req, res) => {
-    res.render("dashboard/index");
+router.get('/', loggedIn, async (req, res) => {
+    const folders = await Folder.find({ createdBy: req.user._id });
+    res.render("dashboard/index", { folders });
 });
 
 router.get('/manage', loggedIn, manageURLs);
