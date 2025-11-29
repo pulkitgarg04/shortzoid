@@ -261,8 +261,8 @@ async function changePassword(req, res) {
         const { password, 'confirm-password': confirmPassword } = req.body;
 
         if (password !== confirmPassword) {
-            return res.status(400).render('auth/reset-password', {
-                token,
+            return res.status(400).render('user/change-password', {
+                user,
                 error: 'Passwords do not match. Please try again.'
             });
         }
