@@ -217,28 +217,6 @@
     </div>
 
     <script>
-        function copyURL() {
-            const copyText = document.getElementById("generated-url").innerText;
-            navigator.clipboard.writeText(copyText).then(() => {
-                alert("Copied the URL: " + copyText);
-            }).catch(err => {
-                alert("Failed to copy the URL");
-            });
-        }
-
-        function downloadQRCode(qrCodeUrl, shortID) {
-            fetch(qrCodeUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    const fileName = `${shortID}-qrcode.png`;
-                    saveAs(blob, fileName);
-                })
-                .catch(err => {
-                    console.error("Error downloading QR code:", err);
-                    alert("Failed to download QR code.");
-                });
-        }
-
         function toggleAdvanced() {
             document.getElementById('advancedOptions').classList.toggle('open');
         }
