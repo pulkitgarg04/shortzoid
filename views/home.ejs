@@ -88,12 +88,47 @@
     <section class="newsletter-section">
         <div class="newsletter-box">
             <h2>Subscribe to our newsletter</h2>
-            <form class="newsletter-form" onsubmit="event.preventDefault();">
-                <input type="email" placeholder="Enter your email address">
+            <form class="newsletter-form" id="newsletterForm">
+                <input type="email" name="email" id="newsletterEmail" placeholder="Enter your email address" required>
                 <button type="submit" class="btn btn-black">Subscribe</button>
             </form>
+            <p id="newsletterMessage" style="margin-top: 10px; display: none;"></p>
         </div>
     </section>
+
+    <script>
+        document.getElementById('newsletterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('newsletterEmail').value;
+            const messageEl = document.getElementById('newsletterMessage');
+            
+            try {
+                const response = await fetch('/api/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                messageEl.style.display = 'block';
+                if (response.ok) {
+                    messageEl.style.color = 'green';
+                    messageEl.textContent = data.message;
+                    document.getElementById('newsletterForm').reset();
+                } else {
+                    messageEl.style.color = 'red';
+                    messageEl.textContent = data.error;
+                }
+            } catch (error) {
+                messageEl.style.display = 'block';
+                messageEl.style.color = 'red';
+                messageEl.textContent = 'Something went wrong. Please try again.';
+            }
+        });
+    </script>
 
     <footer class="site-footer">
         <div class="footer-content">

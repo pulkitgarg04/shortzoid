@@ -12,6 +12,7 @@ const userRoute = require('./routes/user.route');
 const redirectRoute = require('./routes/redirect.route');
 const resetPasswordRoute = require('./routes/resetpass.route');
 const folderRoute = require('./routes/folder.route');
+const newsletterRoute = require('./routes/newsletter.route');
 
 const { checkAuthentication } = require("./middlewares/auth.middleware.js");
 const cookieParser = require('cookie-parser');
@@ -35,6 +36,7 @@ app.use('/r', redirectRoute);
 app.use('/reset-password', resetPasswordRoute);
 app.use('/url', urlRoute);
 app.use('/api/folders', folderRoute);
+app.use('/api/newsletter', newsletterRoute);
 
 // Global error handler
 app.use((err, req, res, next) => {
